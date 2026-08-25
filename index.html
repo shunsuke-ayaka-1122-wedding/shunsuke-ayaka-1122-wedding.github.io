@@ -113,25 +113,25 @@
             <span class="section-heading__line" style="margin: var(--space-sm) 0;"></span>
             <p class="section-heading__jp">ご挨拶</p>
           </div>
-          <div class="concept__text-wrapper">
-            <p class="concept__text" style="margin-bottom: var(--space-md);">
-              <span class="text-wrap">謹啓　</span><span class="text-wrap">時下ますますご清栄のことと</span><span class="text-wrap">お慶び申し上げます</span>
+          <div class="concept__text-wrapper greeting-text-wrapper">
+            <p class="greeting-lead">
+              謹啓　時下ますますご清栄のこととお慶び申し上げます
             </p>
-            <p class="concept__text" style="margin-bottom: var(--space-md);">
-              <span class="text-wrap">このたび　</span><span class="text-wrap">私たちは結婚式を挙げることと</span><span class="text-wrap">なりました</span><br>
-              <span class="text-wrap">つきましては　</span><span class="text-wrap">日頃お世話になっております</span><span class="text-wrap">皆さまに</span><br>
-              <span class="text-wrap">感謝の気持ちを込めて　</span><span class="text-wrap">ささやかな小宴を</span><span class="text-wrap">催したいと存じます</span>
+            <p class="greeting-paragraph">
+              <span class="greeting-single-line">このたび　私たちは結婚式を挙げることとなりました</span><br>
+              <span class="greeting-single-line">つきましては　日頃お世話になっております皆さまに</span><br>
+              <span class="greeting-single-line">感謝の気持ちを込めて　ささやかな小宴を催したいと存じます</span>
             </p>
-            <p class="concept__text" style="margin-bottom: var(--space-md);">
-              <span class="text-wrap">ご多用中のところ</span><span class="text-wrap">誠に恐縮ではございますが</span><br>
-              <span class="text-wrap">ぜひご出席賜りますよう　</span><span class="text-wrap">お願い申し上げます</span>
+            <p class="greeting-paragraph">
+              <span class="greeting-single-line">ご多用中のところ誠に恐縮ではございますが</span><br>
+              <span class="greeting-single-line">ぜひご出席賜りますよう　お願い申し上げます</span>
             </p>
-            <p class="concept__text" style="text-align: right; margin-top: var(--space-md); font-style: italic;">
-              <span class="text-wrap">謹白</span>
+            <p class="greeting-close">
+              謹白
             </p>
-            <p style="text-align: right; font-family: var(--font-serif-jp); font-size: 0.85rem; color: var(--color-brown-medium); margin-top: var(--space-md);">
-              <span class="text-wrap">2026年8月吉日</span><br>
-              <span class="text-wrap">俊佐 ・ 采加</span>
+            <p class="greeting-sign">
+              2026年8月吉日<br>
+              俊佐 ・ 采加
             </p>
           </div>
         </div>
@@ -152,7 +152,7 @@
         <div class="profile-card">
           <div class="profile-header">
             <div class="profile-photo">
-              <img src="assets/profile_shunsuke.jpg" alt="Shunsuke">
+              <img src="assets/profile_shunsuke_zoom.jpg" alt="Shunsuke">
             </div>
             <div class="profile-info">
               <span class="profile-role">GROOM</span>
@@ -164,7 +164,7 @@
         <div class="profile-card">
           <div class="profile-header">
             <div class="profile-photo">
-              <img src="assets/profile_ayaka.jpg" alt="Ayaka">
+              <img src="assets/profile_ayaka_zoom.jpg" alt="Ayaka">
             </div>
             <div class="profile-info">
               <span class="profile-role">BRIDE</span>
@@ -205,7 +205,7 @@
             <div class="info-card__row">
               <span class="info-card__label">会場</span>
               <div class="info-card__value">
-                <strong>ロイヤルチェスター長崎 ホテル＆リトリート</strong><br>
+                <strong>ロイヤルチェスター長崎<br><span style="display:inline-block; white-space:nowrap;">ホテル＆リトリート</span></strong><br>
                 <span style="font-size: 0.8rem; color: var(--color-brown-medium);">
                   〒852-8156 長崎県長崎市赤迫3-6-10
                 </span>
@@ -321,6 +321,31 @@
           </a>
         </div>
       </div>
+    </div>
+  </section>
+
+  <!-- ========== PHOTO GALLERY / ミニフォトギャラリー ========== -->
+  <section class="footer-gallery" id="gallery">
+    <div class="container">
+      <div class="section-heading fade-in" style="margin-bottom: var(--space-md);">
+        <h2 class="section-heading__en">MEMORIES</h2>
+        <span class="section-heading__line" style="margin: var(--space-xs) auto;"></span>
+        <p class="section-heading__jp">フォトギャラリー</p>
+      </div>
+    </div>
+    <div class="footer-gallery__slider-wrapper fade-in">
+      <div class="footer-gallery__track">
+        <div class="footer-gallery__card"><img src="assets/footer_1.jpg" alt="思い出写真 1" loading="lazy"></div>
+        <div class="footer-gallery__card"><img src="assets/footer_2.jpg" alt="思い出写真 2" loading="lazy"></div>
+        <div class="footer-gallery__card"><img src="assets/footer_3.jpg" alt="思い出写真 3" loading="lazy"></div>
+        <div class="footer-gallery__card"><img src="assets/footer_4.jpg" alt="思い出写真 4" loading="lazy"></div>
+        <div class="footer-gallery__card"><img src="assets/footer_5.jpg" alt="思い出写真 5" loading="lazy"></div>
+        <div class="footer-gallery__card"><img src="assets/footer_6.jpg" alt="思い出写真 6" loading="lazy"></div>
+      </div>
+      <p class="footer-gallery__hint">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        横にスクロールしてご覧いただけます
+      </p>
     </div>
   </section>
 
