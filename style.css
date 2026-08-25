@@ -857,7 +857,7 @@ button {
 .profile-photo {
   flex-shrink: 0;
   width: 105px;
-  height: 140px;
+  height: 105px;
   border-radius: var(--radius-md);
   overflow: hidden;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
@@ -1669,9 +1669,9 @@ button {
 
   .profile-photo {
     width: 105px;
-    height: 140px;
+    height: 105px;
     max-width: 105px;
-    max-height: 140px;
+    max-height: 105px;
     border-radius: var(--radius-md);
     box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
   }
