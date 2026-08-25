@@ -4,13 +4,7 @@
    ============================================================ */
 
 /* --- Google Fonts Import --- */
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&family=Dancing+Script:wght@400;500;600;700&family=Noto+Sans+JP:wght@300;400;500;700&family=Noto+Serif+JP:wght@200;300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Quicksand:wght@500;600;700&display=swap');
-
-@font-face {
-  font-family: 'SimpleAmpersand';
-  src: local('Helvetica'), local('Arial'), local('sans-serif');
-  unicode-range: U+0026;
-}
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&family=Noto+Sans+JP:wght@300;400;500;700&family=Noto+Serif+JP:wght@200;300;400;500;600&display=swap');
 
 /* --- CSS Custom Properties --- */
 :root {
@@ -35,12 +29,12 @@
   --color-overlay: rgba(45, 44, 42, 0.4);
 
   /* Typography */
-  --font-script: 'SimpleAmpersand', 'Dancing Script', cursive;
-  --font-serif-en: 'SimpleAmpersand', 'Cormorant Garamond', 'Playfair Display', serif;
+  --font-script: 'Cormorant Garamond', serif;
+  --font-serif-en: 'Cormorant Garamond', serif;
   --font-serif-jp: 'Noto Serif JP', serif;
   --font-sans-jp: 'Noto Sans JP', sans-serif;
-  --font-display: 'SimpleAmpersand', 'Playfair Display', serif;
-  --font-cute: 'SimpleAmpersand', 'Quicksand', sans-serif;
+  --font-display: 'Cormorant Garamond', serif;
+  --font-cute: 'Cormorant Garamond', serif;
 
   /* Spacing */
   --space-xs: 0.5rem;
@@ -385,15 +379,15 @@ button {
 
 .hero__title {
   font-family: var(--font-serif-en);
-  font-size: clamp(3rem, 6vw, 4.5rem);
-  font-weight: 500;
-  font-style: italic;
+  font-size: clamp(2.8rem, 5.5vw, 4.2rem);
+  font-weight: 400;
+  font-style: normal;
   color: var(--color-terra);
-  line-height: 1.2;
+  line-height: 1.15;
   margin-bottom: var(--space-md);
   animation: fadeInUp 1.2s ease forwards;
   opacity: 0;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.04em;
 }
 
 .hero__subtitle-jp {
@@ -414,11 +408,11 @@ button {
 
 .hero__subtitle-en {
   font-family: var(--font-serif-en);
-  font-size: 0.8rem;
-  font-weight: 300;
-  font-style: italic;
+  font-size: 0.95rem;
+  font-weight: 400;
+  font-style: normal;
   color: var(--color-brown-light);
-  letter-spacing: 0.05em;
+  letter-spacing: 0.08em;
   animation: fadeInUp 1.2s ease 0.5s forwards;
   opacity: 0;
 }
