@@ -1948,7 +1948,7 @@ button {
    ============================================================ */
 .footer-gallery {
   background: var(--color-cream-light, #FAF9F6);
-  padding: var(--space-xl) 0 var(--space-lg);
+  padding: var(--space-lg) 0;
   overflow: hidden;
   border-top: 1px solid rgba(201, 169, 110, 0.15);
 }
