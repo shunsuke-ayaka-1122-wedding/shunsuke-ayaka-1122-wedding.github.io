@@ -303,6 +303,66 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // ============================================================
+  // ALBUM CAROUSEL INTERACTIVITY
+  // ============================================================
+  const albumMainImg = document.getElementById('album-current-img');
+  const albumThumbs = document.querySelectorAll('.album-thumb');
+  const albumPrevBtn = document.getElementById('album-prev');
+  const albumNextBtn = document.getElementById('album-next');
+  let currentAlbumIndex = 0;
+
+  const updateAlbumImage = (index) => {
+    if (!albumThumbs.length || !albumMainImg) return;
+    if (index < 0) index = albumThumbs.length - 1;
+    if (index >= albumThumbs.length) index = 0;
+    currentAlbumIndex = index;
+
+    const targetThumb = albumThumbs[currentAlbumIndex];
+    const newSrc = targetThumb.getAttribute('data-src');
+
+    albumMainImg.style.opacity = '0';
+    albumMainImg.style.transform = 'scale(0.98)';
+    setTimeout(() => {
+      albumMainImg.src = newSrc;
+      albumMainImg.style.opacity = '1';
+      albumMainImg.style.transform = 'scale(1)';
+    }, 150);
+
+    albumThumbs.forEach((thumb, i) => {
+      if (i === currentAlbumIndex) {
+        thumb.classList.add('active');
+      } else {
+        thumb.classList.remove('active');
+      }
+    });
+  };
+
+  albumThumbs.forEach((thumb, idx) => {
+    thumb.addEventListener('click', () => updateAlbumImage(idx));
+  });
+
+  albumPrevBtn?.addEventListener('click', () => updateAlbumImage(currentAlbumIndex - 1));
+  albumNextBtn?.addEventListener('click', () => updateAlbumImage(currentAlbumIndex + 1));
+
+  // Touch Swipe for Album
+  let touchStartX = 0;
+  let touchEndX = 0;
+  const albumMainStage = document.getElementById('album-main-stage');
+
+  albumMainStage?.addEventListener('touchstart', (e) => {
+    touchStartX = e.changedTouches[0].screenX;
+  }, { passive: true });
+
+  albumMainStage?.addEventListener('touchend', (e) => {
+    touchEndX = e.changedTouches[0].screenX;
+    if (touchStartX - touchEndX > 40) {
+      updateAlbumImage(currentAlbumIndex + 1); // Swipe left -> next
+    } else if (touchEndX - touchStartX > 40) {
+      updateAlbumImage(currentAlbumIndex - 1); // Swipe right -> prev
+    }
+  }, { passive: true });
+
+  // ============================================================
   // INITIAL LOAD ANIMATION
   // ============================================================
   document.body.style.opacity = '0';
