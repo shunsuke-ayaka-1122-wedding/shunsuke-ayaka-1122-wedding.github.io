@@ -1361,12 +1361,14 @@ button {
 }
 
 .thankyou__inner {
-  display: grid;
-  grid-template-columns: 1.2fr 1fr;
-  gap: var(--space-2xl);
+  display: flex;
+  flex-direction: column;
   align-items: center;
+  gap: var(--space-xl);
   position: relative;
   z-index: 1;
+  max-width: 960px;
+  margin: 0 auto;
 }
 
 .thankyou__text {
@@ -1944,80 +1946,73 @@ button {
 }
 
 /* ============================================================
-   FOOTER GALLERY / MEMORIES SLIDER
+   RSVP SECTION PHOTO SLIDER (Sharp right-angle cards)
    ============================================================ */
-.footer-gallery {
-  background: var(--color-cream-light, #FAF9F6);
-  padding: var(--space-lg) 0;
-  overflow: hidden;
-  border-top: 1px solid rgba(201, 169, 110, 0.15);
-}
-
-.footer-gallery__slider-wrapper {
-  width: 100%;
+.thankyou__gallery {
+  width: 100vw;
+  max-width: 100vw;
   position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+  overflow: hidden;
+  margin: var(--space-sm) 0;
 }
 
-.footer-gallery__track {
+.thankyou__gallery-track {
   display: flex;
-  gap: 16px;
+  gap: 14px;
   overflow-x: auto;
   scroll-snap-type: x mandatory;
   -webkit-overflow-scrolling: touch;
-  padding: 10px var(--space-md) 16px;
+  padding: 8px var(--space-lg);
   scrollbar-width: thin;
-  scrollbar-color: var(--color-gold-light) transparent;
+  scrollbar-color: rgba(255, 255, 255, 0.3) transparent;
+  justify-content: flex-start;
 }
 
-.footer-gallery__track::-webkit-scrollbar {
-  height: 6px;
+.thankyou__gallery-track::-webkit-scrollbar {
+  height: 4px;
 }
 
-.footer-gallery__track::-webkit-scrollbar-thumb {
-  background: var(--color-gold-light);
-  border-radius: 3px;
+.thankyou__gallery-track::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.3);
 }
 
-.footer-gallery__card {
-  flex: 0 0 240px;
-  height: 320px;
+.thankyou__gallery-card {
+  flex: 0 0 220px;
+  height: 300px;
   scroll-snap-align: center;
-  border-radius: var(--radius-md);
+  border-radius: 0 !important;
   overflow: hidden;
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
-  border: 1px solid rgba(201, 169, 110, 0.15);
-  background: var(--color-white);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(0, 0, 0, 0.15);
+  transition: transform 0.3s ease;
 }
 
-.footer-gallery__card:hover {
+.thankyou__gallery-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.14);
 }
 
-.footer-gallery__card img {
+.thankyou__gallery-card img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  border-radius: 0 !important;
   display: block;
 }
 
-.footer-gallery__hint {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  font-family: var(--font-sans-jp);
-  font-size: 0.75rem;
-  color: var(--color-brown-light);
-  margin-top: 6px;
-  letter-spacing: 0.05em;
-}
-
 @media (max-width: 768px) {
-  .footer-gallery__card {
-    flex: 0 0 200px;
-    height: 280px;
+  .thankyou__gallery-track {
+    padding: 8px var(--space-md);
+    gap: 10px;
+  }
+  .thankyou__gallery-card {
+    flex: 0 0 175px;
+    height: 240px;
   }
 }
+
 
