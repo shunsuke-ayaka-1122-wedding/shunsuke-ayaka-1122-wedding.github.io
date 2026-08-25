@@ -1946,35 +1946,8 @@ button {
 }
 
 /* ============================================================
-   NEW DESIGN SECTIONS (PROFILE, ALBUM, RSVP)
+   PROFILE SECTION (Circle Photos & Vertical Layout)
    ============================================================ */
-
-/* Section Heading v2 (Lavender accent on Olive background) */
-.section-heading-v2 {
-  text-align: center;
-  margin-bottom: var(--space-xl);
-}
-
-.section-heading-v2__en {
-  font-family: var(--font-serif-en);
-  font-size: clamp(2rem, 5vw, 2.6rem);
-  font-weight: 400;
-  letter-spacing: 0.18em;
-  color: #C7B5DD;
-  line-height: 1.2;
-  margin: 0;
-  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-}
-
-.section-heading-v2__jp {
-  font-family: var(--font-serif-jp);
-  font-size: 0.85rem;
-  letter-spacing: 0.15em;
-  color: rgba(255, 255, 255, 0.9);
-  margin-top: 8px;
-}
-
-/* PROFILE Section v2 */
 .profile-section {
   background: #5B6647;
   color: #FFFFFF;
@@ -1983,7 +1956,7 @@ button {
 .profile-list {
   display: flex;
   flex-direction: column;
-  gap: 50px;
+  gap: 48px;
   max-width: 480px;
   margin: 0 auto;
 }
@@ -1995,20 +1968,20 @@ button {
 .profile-item__photo-wrapper {
   display: flex;
   justify-content: center;
-  margin-bottom: 20px;
+  margin-bottom: 18px;
 }
 
 .profile-item__photo-ring {
-  width: 175px;
-  height: 175px;
+  width: 170px;
+  height: 170px;
   border-radius: 50%;
-  padding: 5px;
-  border: 2px solid rgba(199, 181, 221, 0.55);
+  padding: 4px;
+  border: 2px solid rgba(255, 255, 255, 0.45);
   display: flex;
   align-items: center;
   justify-content: center;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(255, 255, 255, 0.08);
 }
 
 .profile-item__img {
@@ -2034,7 +2007,7 @@ button {
   font-weight: 500;
   color: #FFFFFF;
   letter-spacing: 0.15em;
-  margin-bottom: 14px;
+  margin-bottom: 12px;
 }
 
 .profile-item__message {
@@ -2046,7 +2019,9 @@ button {
   letter-spacing: 0.05em;
 }
 
-/* ALBUM Section */
+/* ============================================================
+   ALBUM SECTION (Continuous Sliding Carousel)
+   ============================================================ */
 .album-section {
   background: #5B6647;
   color: #FFFFFF;
@@ -2054,42 +2029,66 @@ button {
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.album-carousel {
-  max-width: 440px;
+.album-slider {
+  width: 100%;
+  position: relative;
   margin: 0 auto;
 }
 
-.album-carousel__main-wrapper {
+.album-slider__viewport {
+  width: 100vw;
+  max-width: 100vw;
   position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+  overflow: hidden;
+  padding: 10px 0;
+}
+
+.album-slider__track {
   display: flex;
   align-items: center;
-  justify-content: center;
-  margin-bottom: 16px;
+  transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+  will-change: transform;
 }
 
-.album-carousel__main {
-  width: 100%;
+.album-slider__slide {
+  flex: 0 0 72vw;
   max-width: 360px;
   height: 380px;
+  margin: 0 10px;
+  opacity: 0.45;
+  transform: scale(0.92);
+  transition: all 0.4s ease;
+  border-radius: 0;
   overflow: hidden;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
   background: rgba(0, 0, 0, 0.2);
+  cursor: pointer;
 }
 
-.album-carousel__main img {
+.album-slider__slide.active {
+  opacity: 1;
+  transform: scale(1);
+  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+}
+
+.album-slider__slide img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
-  transition: opacity 0.2s ease, transform 0.2s ease;
 }
 
-.album-carousel__nav {
+.album-slider__btn {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  width: 38px;
-  height: 38px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   background: rgba(255, 255, 255, 0.85);
   color: #333333;
@@ -2098,28 +2097,29 @@ button {
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
   z-index: 10;
   transition: all 0.2s ease;
 }
 
-.album-carousel__nav:hover {
+.album-slider__btn:hover {
   background: #FFFFFF;
   transform: translateY(-50%) scale(1.1);
 }
 
-.album-carousel__nav--prev {
-  left: 0;
+.album-slider__btn--prev {
+  left: 16px;
 }
 
-.album-carousel__nav--next {
-  right: 0;
+.album-slider__btn--next {
+  right: 16px;
 }
 
-.album-carousel__thumbnails {
+.album-slider__thumbnails {
   display: flex;
   justify-content: center;
   gap: 8px;
+  margin-top: 18px;
   flex-wrap: wrap;
 }
 
@@ -2149,12 +2149,12 @@ button {
 
 .album-thumb.active {
   opacity: 1;
-  border-color: #C7B5DD;
+  border-color: var(--color-gold-light);
   transform: scale(1.08);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
 }
 
-/* RSVP Section v2 */
+/* RSVP Section Message */
 .thankyou__message {
   font-family: var(--font-serif-jp);
   font-size: 0.95rem;
@@ -2182,9 +2182,18 @@ button {
     height: 155px;
   }
   
-  .album-carousel__main {
+  .album-slider__slide {
+    flex: 0 0 76vw;
     max-width: 320px;
     height: 340px;
+  }
+
+  .album-slider__btn--prev {
+    left: 8px;
+  }
+
+  .album-slider__btn--next {
+    right: 8px;
   }
 
   .album-thumb {
@@ -2192,6 +2201,7 @@ button {
     height: 42px;
   }
 }
+
 
 
 

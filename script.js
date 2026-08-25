@@ -303,30 +303,29 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // ============================================================
-  // ALBUM CAROUSEL INTERACTIVITY
+  // ALBUM SLIDER INTERACTIVITY (Centering track slide)
   // ============================================================
-  const albumMainImg = document.getElementById('album-current-img');
+  const albumTrack = document.getElementById('album-track');
+  const albumSlides = document.querySelectorAll('.album-slider__slide');
   const albumThumbs = document.querySelectorAll('.album-thumb');
   const albumPrevBtn = document.getElementById('album-prev');
   const albumNextBtn = document.getElementById('album-next');
+  const albumViewport = document.querySelector('.album-slider__viewport');
   let currentAlbumIndex = 0;
 
-  const updateAlbumImage = (index) => {
-    if (!albumThumbs.length || !albumMainImg) return;
-    if (index < 0) index = albumThumbs.length - 1;
-    if (index >= albumThumbs.length) index = 0;
+  const updateAlbumSlide = (index) => {
+    if (!albumSlides.length || !albumTrack || !albumViewport) return;
+    if (index < 0) index = albumSlides.length - 1;
+    if (index >= albumSlides.length) index = 0;
     currentAlbumIndex = index;
 
-    const targetThumb = albumThumbs[currentAlbumIndex];
-    const newSrc = targetThumb.getAttribute('data-src');
-
-    albumMainImg.style.opacity = '0';
-    albumMainImg.style.transform = 'scale(0.98)';
-    setTimeout(() => {
-      albumMainImg.src = newSrc;
-      albumMainImg.style.opacity = '1';
-      albumMainImg.style.transform = 'scale(1)';
-    }, 150);
+    albumSlides.forEach((slide, i) => {
+      if (i === currentAlbumIndex) {
+        slide.classList.add('active');
+      } else {
+        slide.classList.remove('active');
+      }
+    });
 
     albumThumbs.forEach((thumb, i) => {
       if (i === currentAlbumIndex) {
@@ -335,32 +334,59 @@ document.addEventListener('DOMContentLoaded', () => {
         thumb.classList.remove('active');
       }
     });
+
+    const activeSlide = albumSlides[currentAlbumIndex];
+    const viewportWidth = albumViewport.offsetWidth;
+    const slideWidth = activeSlide.offsetWidth;
+    const slideOffsetLeft = activeSlide.offsetLeft;
+    const scrollPos = slideOffsetLeft - (viewportWidth - slideWidth) / 2;
+
+    albumTrack.style.transform = `translateX(-${scrollPos}px)`;
   };
 
   albumThumbs.forEach((thumb, idx) => {
-    thumb.addEventListener('click', () => updateAlbumImage(idx));
+    thumb.addEventListener('click', () => updateAlbumSlide(idx));
   });
 
-  albumPrevBtn?.addEventListener('click', () => updateAlbumImage(currentAlbumIndex - 1));
-  albumNextBtn?.addEventListener('click', () => updateAlbumImage(currentAlbumIndex + 1));
+  albumSlides.forEach((slide, idx) => {
+    slide.addEventListener('click', () => updateAlbumSlide(idx));
+  });
+
+  albumPrevBtn?.addEventListener('click', (e) => {
+    e.stopPropagation();
+    updateAlbumSlide(currentAlbumIndex - 1);
+  });
+
+  albumNextBtn?.addEventListener('click', (e) => {
+    e.stopPropagation();
+    updateAlbumSlide(currentAlbumIndex + 1);
+  });
 
   // Touch Swipe for Album
   let touchStartX = 0;
   let touchEndX = 0;
-  const albumMainStage = document.getElementById('album-main-stage');
 
-  albumMainStage?.addEventListener('touchstart', (e) => {
+  albumViewport?.addEventListener('touchstart', (e) => {
     touchStartX = e.changedTouches[0].screenX;
   }, { passive: true });
 
-  albumMainStage?.addEventListener('touchend', (e) => {
+  albumViewport?.addEventListener('touchend', (e) => {
     touchEndX = e.changedTouches[0].screenX;
-    if (touchStartX - touchEndX > 40) {
-      updateAlbumImage(currentAlbumIndex + 1); // Swipe left -> next
-    } else if (touchEndX - touchStartX > 40) {
-      updateAlbumImage(currentAlbumIndex - 1); // Swipe right -> prev
+    if (touchStartX - touchEndX > 35) {
+      updateAlbumSlide(currentAlbumIndex + 1); // Swipe left -> next
+    } else if (touchEndX - touchStartX > 35) {
+      updateAlbumSlide(currentAlbumIndex - 1); // Swipe right -> prev
     }
   }, { passive: true });
+
+  window.addEventListener('resize', () => {
+    updateAlbumSlide(currentAlbumIndex);
+  });
+
+  // Initial layout calculation after page assets settle
+  setTimeout(() => {
+    updateAlbumSlide(0);
+  }, 100);
 
   // ============================================================
   // INITIAL LOAD ANIMATION
