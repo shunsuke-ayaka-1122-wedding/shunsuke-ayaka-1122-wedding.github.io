@@ -160,22 +160,29 @@ document.addEventListener('DOMContentLoaded', () => {
   setInterval(updateCountdown, 1000);
 
   // ============================================================
-  // PARALLAX-LIKE EFFECT on Petals
+  // PARALLAX EFFECT on Petals in Greeting section
   // ============================================================
-  const petals = document.querySelectorAll('.petal');
+  const greetingSection = document.getElementById('greeting');
+  const petals = greetingSection ? greetingSection.querySelectorAll('.petal') : [];
 
-  const handlePetalParallax = () => {
-    const scrollY = window.scrollY;
-    petals.forEach((petal, i) => {
-      const speed = 0.05 + (i * 0.02);
-      petal.style.transform = `translateY(${scrollY * speed}px)`;
-    });
-  };
+  if (petals.length > 0) {
+    const handlePetalParallax = () => {
+      const rect = greetingSection.getBoundingClientRect();
+      const windowHeight = window.innerHeight;
 
-  // Only apply on desktop for performance
-  if (window.innerWidth > 768) {
-    // Disabled by default to not interfere with CSS animation
-    // window.addEventListener('scroll', handlePetalParallax, { passive: true });
+      // When greeting section is approaching or in viewport
+      if (rect.top < windowHeight && rect.bottom > 0) {
+        const offset = (windowHeight - rect.top) * 0.15;
+        petals.forEach((petal, i) => {
+          const speed = 0.35 + (i * 0.15);
+          const rotation = (i * 35) + (offset * 0.08);
+          petal.style.transform = `translateY(${offset * speed}px) rotate(${rotation}deg)`;
+        });
+      }
+    };
+
+    window.addEventListener('scroll', handlePetalParallax, { passive: true });
+    handlePetalParallax();
   }
 
   // ============================================================
