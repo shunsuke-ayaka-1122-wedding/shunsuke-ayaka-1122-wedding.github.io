@@ -404,40 +404,46 @@ button {
 /* Top Center Vertical Badge: { 招待状 } */
 .hero-cover__top-badge {
   position: absolute;
-  top: 68px;
+  top: 13%;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 3px;
+  gap: 0;
   color: #FFFFFF;
   z-index: 5;
   pointer-events: none;
 }
 
-.hero-cover__bracket-svg {
-  display: block;
-  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.7));
+.hero-cover__bracket {
+  display: inline-block;
+  font-family: var(--font-serif-jp);
+  font-size: 2.2rem;
+  font-weight: 300;
+  line-height: 0.8;
+  color: #FFFFFF;
+  transform: rotate(90deg);
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.85);
 }
 
 .hero-cover__vertical-text {
   writing-mode: vertical-rl;
   font-family: var(--font-serif-jp);
-  font-size: 1.35rem;
-  letter-spacing: 0.38em;
+  font-size: 1.65rem;
+  letter-spacing: 0.35em;
   font-weight: 400;
   color: #FFFFFF;
-  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
-  padding: 3px 0 1px;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.9);
+  padding: 8px 0 6px;
 }
 
-/* Middle/Lower Couple Names & Date (Positioned below faces) */
+/* Middle/Lower Couple Names & Date (Positioned below faces / chest level) */
 .hero-cover__couple {
   position: absolute;
-  bottom: 8%;
+  top: 50%;
   left: 50%;
-  transform: translateX(-50%);
+  transform: translate(-50%, -50%);
   width: 90%;
   text-align: center;
   z-index: 5;
@@ -448,16 +454,16 @@ button {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 16px;
+  gap: 20px;
 }
 
 .hero-cover__name {
   font-family: var(--font-serif-jp);
-  font-size: clamp(1.4rem, 4.5vw, 1.85rem);
+  font-size: clamp(1.7rem, 5.5vw, 2.2rem);
   font-weight: 500;
-  letter-spacing: 0.18em;
+  letter-spacing: 0.15em;
   color: #FFFFFF;
-  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.75);
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.9);
 }
 
 .hero-cover__emblem {
@@ -467,21 +473,21 @@ button {
 }
 
 .hero-cover__emblem-img {
-  width: 38px;
-  height: 38px;
+  width: clamp(44px, 12vw, 56px);
+  height: clamp(44px, 12vw, 56px);
   object-fit: contain;
   display: block;
-  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.75));
+  filter: drop-shadow(0 2px 12px rgba(0, 0, 0, 0.9));
 }
 
 .hero-cover__date {
   font-family: var(--font-serif-en);
-  font-size: clamp(1.1rem, 3.5vw, 1.4rem);
+  font-size: clamp(1.3rem, 4vw, 1.65rem);
   font-weight: 400;
   letter-spacing: 0.12em;
   color: #FFFFFF;
-  margin-top: 6px;
-  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.75);
+  margin-top: 8px;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.9);
 }
 
 /* Subtle Parallax Flower Petals (inside Greeting Section) */
