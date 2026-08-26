@@ -68,50 +68,59 @@
       <div class="petal"></div>
     </div>
 
-    <div class="hero__main">
-      <div class="hero__content">
-        <div class="hero__text">
-          <p class="hero__subtitle-en" style="animation-delay: 0s; margin-bottom: var(--space-sm);">
-            Wedding Invitation
-          </p>
-          <h1 class="hero__title">Shunsuke<br>&amp; Ayaka</h1>
-          <p class="hero__subtitle-jp">
-            私たちの結婚式にご招待いたします
-          </p>
-        </div>
+    <!-- Main Visual Cover with Overlay Text (Matching screenshot) -->
+    <div class="hero-cover">
+      <div class="hero-cover__img-wrapper">
+        <img
+          src="assets/hero_main.jpg"
+          alt="俊佐と采加"
+          class="hero-cover__img"
+          id="hero-photo"
+        >
+        <div class="hero-cover__overlay"></div>
+      </div>
 
-        <div class="hero__photo-area">
-          <img
-            src="assets/hero_main.jpg"
-            alt="新郎新婦"
-            class="hero__photo-main"
-            id="hero-photo"
-          >
-          <span class="hero__decor-script">We begin our forever</span>
+      <!-- Top Center Vertical Badge -->
+      <div class="hero-cover__top-badge">
+        <span class="hero-cover__brace">{</span>
+        <span class="hero-cover__vertical-text">招待状</span>
+        <span class="hero-cover__brace">}</span>
+      </div>
+
+      <!-- Middle/Lower Couple Names & Date -->
+      <div class="hero-cover__couple">
+        <div class="hero-cover__names-row">
+          <span class="hero-cover__name">俊佐</span>
+          <span class="hero-cover__emblem">
+            <svg width="34" height="34" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M50 22 C38 6, 20 22, 34 38 C18 24, 6 42, 22 54 C6 66, 22 84, 38 70 C24 86, 42 98, 54 82 C66 98, 84 82, 70 66 C86 80, 98 62, 82 50 C98 38, 82 20, 66 34 C80 18, 62 6, 50 22 Z" stroke="#FFFFFF" stroke-width="3" fill="none" opacity="0.95"/>
+              <circle cx="50" cy="52" r="14" stroke="#FFFFFF" stroke-width="2.5" fill="none" opacity="0.9"/>
+            </svg>
+          </span>
+          <span class="hero-cover__name">采加</span>
         </div>
+        <p class="hero-cover__date">2026.11.22</p>
       </div>
     </div>
 
-    <!-- Hero Info Bar -->
-    <div class="hero__info">
-      <div class="hero__info-inner" style="justify-content: center;">
-        <div class="hero__date" id="hero-date">
-          <div class="hero__countdown-box fade-in">
-            <div class="countdown-label-top">Count Down</div>
-            <div class="countdown-days-large" id="cd-days">--</div>
-            <div class="countdown-days-label">DAYS</div>
-            <div class="countdown-time-row" id="cd-time">
-              <!-- JS will inject time blocks here -->
-            </div>
-            <div class="countdown-target-date">To 2026.11.22</div>
+    <!-- Countdown Section (Immediately below hero image) -->
+    <div class="hero__countdown-section">
+      <div class="container">
+        <div class="hero__countdown-box fade-in">
+          <div class="countdown-label-top">Count Down</div>
+          <div class="countdown-days-large" id="cd-days">--</div>
+          <div class="countdown-days-label">DAYS</div>
+          <div class="countdown-time-row" id="cd-time">
+            <!-- JS will inject time blocks here -->
           </div>
+          <div class="countdown-target-date">To 2026.11.22</div>
         </div>
       </div>
     </div>
   </section>
 
   <!-- ========== GREETING / ご挨拶 ========== -->
-  <section class="concept section-padding" id="greeting" style="margin-top: 150px;">
+  <section class="concept section-padding" id="greeting">
     <div class="container">
       <div class="concept__inner">
         <div class="concept__text-area fade-in">
