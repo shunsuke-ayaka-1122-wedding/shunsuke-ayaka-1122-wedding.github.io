@@ -3,13 +3,7 @@
    Invitation Form & Admin Styles
    ============================================================ */
 
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&family=Dancing+Script:wght@400;500;600;700&family=Noto+Sans+JP:wght@300;400;500;700&family=Noto+Serif+JP:wght@200;300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap');
-
-@font-face {
-  font-family: 'SimpleAmpersand';
-  src: local('Helvetica'), local('Arial'), local('sans-serif');
-  unicode-range: U+0026;
-}
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&family=Noto+Sans+JP:wght@300;400;500;700&family=Noto+Serif+JP:wght@200;300;400;500;600&display=swap');
 
 :root {
   /* Colors */
@@ -37,11 +31,11 @@
   --color-deep-green-hover: #3B482A;
 
   /* Typography */
-  --font-script: 'SimpleAmpersand', 'Dancing Script', cursive;
-  --font-serif-en: 'SimpleAmpersand', 'Cormorant Garamond', 'Playfair Display', serif;
+  --font-script: 'Cormorant Garamond', serif;
+  --font-serif-en: 'Cormorant Garamond', serif;
   --font-serif-jp: 'Noto Serif JP', serif;
   --font-sans-jp: 'Noto Sans JP', sans-serif;
-  --font-display: 'SimpleAmpersand', 'Playfair Display', serif;
+  --font-display: 'Cormorant Garamond', serif;
 
   --shadow-soft: 0 2px 20px rgba(58, 50, 48, 0.06);
   --shadow-medium: 0 4px 30px rgba(58, 50, 48, 0.10);
@@ -114,10 +108,10 @@ button { border: none; background: none; cursor: pointer; font-family: inherit; 
 
 .rsvp-header__logo {
   font-family: var(--font-serif-en);
-  font-size: 2rem;
-  font-weight: 500;
-  font-style: italic;
-  letter-spacing: 0.1em;
+  font-size: 2.2rem;
+  font-weight: 400;
+  font-style: normal;
+  letter-spacing: 0.05em;
   color: var(--color-gold);
   margin-bottom: 4px;
 }
@@ -853,16 +847,19 @@ button { border: none; background: none; cursor: pointer; font-family: inherit; 
 }
 
 .rsvp-footer__names {
-  font-family: var(--font-script);
-  font-size: 1.3rem;
+  font-family: var(--font-serif-en);
+  font-size: 1.6rem;
+  font-weight: 400;
+  font-style: normal;
+  letter-spacing: 0.06em;
   color: var(--color-gold);
   margin-bottom: 4px;
 }
 
 .rsvp-footer__date {
   font-family: var(--font-serif-en);
-  font-size: 0.7rem;
-  letter-spacing: 0.2em;
+  font-size: 0.8rem;
+  letter-spacing: 0.15em;
   color: var(--color-brown-light);
 }
 

@@ -161,10 +161,20 @@ button {
 
 /* Floating petal animation */
 @keyframes floatPetal {
-  0% { transform: translateY(-10%) rotate(0deg); opacity: 0; }
-  10% { opacity: 0.8; }
-  90% { opacity: 0.6; }
-  100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
+  0% {
+    transform: translateY(0) rotate(0deg) scale(0.7);
+    opacity: 0;
+  }
+  15% {
+    opacity: 0.9;
+  }
+  85% {
+    opacity: 0.85;
+  }
+  100% {
+    transform: translateY(105vh) translateX(70px) rotate(540deg) scale(1);
+    opacity: 0;
+  }
 }
 
 @keyframes fadeInUp {
@@ -449,27 +459,41 @@ button {
   white-space: nowrap;
 }
 
-/* Floating petals */
-.petal {
-  position: absolute;
-  width: 20px;
-  height: 20px;
-  background: var(--color-pink-light);
-  border-radius: 50% 0 50% 50%;
-  opacity: 0;
-  animation: floatPetal linear infinite;
+/* Floating Flower Petals (Universal fixed overlay) */
+.petals-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
   pointer-events: none;
-  z-index: 1;
+  overflow: hidden;
+  z-index: 999;
 }
 
-.petal:nth-child(1) { left: 5%; animation-duration: 12s; animation-delay: 0s; width: 15px; height: 15px; }
-.petal:nth-child(2) { left: 15%; animation-duration: 15s; animation-delay: 2s; width: 20px; height: 20px; background: var(--color-pink); }
-.petal:nth-child(3) { left: 30%; animation-duration: 10s; animation-delay: 4s; width: 12px; height: 12px; }
-.petal:nth-child(4) { left: 55%; animation-duration: 14s; animation-delay: 1s; width: 18px; height: 18px; }
-.petal:nth-child(5) { left: 70%; animation-duration: 11s; animation-delay: 3s; width: 14px; height: 14px; background: var(--color-pink); }
-.petal:nth-child(6) { left: 85%; animation-duration: 13s; animation-delay: 5s; width: 16px; height: 16px; }
-.petal:nth-child(7) { left: 40%; animation-duration: 16s; animation-delay: 6s; width: 10px; height: 10px; }
-.petal:nth-child(8) { left: 92%; animation-duration: 12s; animation-delay: 7s; width: 22px; height: 22px; background: var(--color-pink); }
+.petal {
+  position: absolute;
+  top: -30px;
+  background: linear-gradient(135deg, #ffd1dc 0%, #ffb6c1 60%, #f497a9 100%);
+  border-radius: 60% 0 60% 60%;
+  opacity: 0;
+  animation: floatPetal linear infinite;
+  box-shadow: 0 2px 6px rgba(232, 185, 185, 0.45);
+  pointer-events: none;
+}
+
+.petal:nth-child(1) { left: 4%; width: 14px; height: 14px; animation-duration: 11s; animation-delay: 0s; }
+.petal:nth-child(2) { left: 14%; width: 18px; height: 18px; animation-duration: 14s; animation-delay: 3s; }
+.petal:nth-child(3) { left: 25%; width: 12px; height: 12px; animation-duration: 9s; animation-delay: 1s; }
+.petal:nth-child(4) { left: 38%; width: 16px; height: 16px; animation-duration: 13s; animation-delay: 5s; }
+.petal:nth-child(5) { left: 52%; width: 20px; height: 20px; animation-duration: 15s; animation-delay: 2s; }
+.petal:nth-child(6) { left: 65%; width: 13px; height: 13px; animation-duration: 10s; animation-delay: 6s; }
+.petal:nth-child(7) { left: 77%; width: 17px; height: 17px; animation-duration: 12s; animation-delay: 1.5s; }
+.petal:nth-child(8) { left: 88%; width: 15px; height: 15px; animation-duration: 14s; animation-delay: 4.5s; }
+.petal:nth-child(9) { left: 95%; width: 19px; height: 19px; animation-duration: 16s; animation-delay: 0.5s; }
+.petal:nth-child(10) { left: 18%; width: 15px; height: 15px; animation-duration: 12s; animation-delay: 7s; }
+.petal:nth-child(11) { left: 46%; width: 13px; height: 13px; animation-duration: 11s; animation-delay: 8.5s; }
+.petal:nth-child(12) { left: 72%; width: 16px; height: 16px; animation-duration: 13s; animation-delay: 9s; }
 
 /* --- Hero Info Bar --- */
 .hero__info {
@@ -1457,18 +1481,20 @@ button {
 
 .footer__names {
   font-family: var(--font-serif-en);
-  font-size: 1.6rem;
-  font-weight: 500;
-  font-style: italic;
-  letter-spacing: 0.1em;
+  font-size: 1.8rem;
+  font-weight: 400;
+  font-style: normal;
+  letter-spacing: 0.06em;
   color: var(--color-gold);
   margin-bottom: var(--space-xs);
 }
 
 .footer__date {
   font-family: var(--font-serif-en);
-  font-size: 0.75rem;
-  letter-spacing: 0.2em;
+  font-size: 0.85rem;
+  font-weight: 400;
+  font-style: normal;
+  letter-spacing: 0.12em;
   color: var(--color-brown-light);
   margin-bottom: var(--space-sm);
 }
@@ -1942,15 +1968,41 @@ button {
 /* ============================================================
    PROFILE SECTION (Circle Photos & Vertical Layout)
    ============================================================ */
+/* ============================================================
+   PROFILE SECTION (Circle Photos & High Clarity)
+   ============================================================ */
 .profile-section {
   background: #5B6647;
   color: #FFFFFF;
 }
 
+.profile-section .section-heading__en,
+.album-section .section-heading__en,
+.thankyou .section-heading__en {
+  color: #FFFDF8;
+  font-family: var(--font-serif-en);
+  letter-spacing: 0.15em;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+}
+
+.profile-section .section-heading__line,
+.album-section .section-heading__line,
+.thankyou .section-heading__line {
+  background: #E8D3B9;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.profile-section .section-heading__jp,
+.album-section .section-heading__jp,
+.thankyou .section-heading__jp {
+  color: rgba(255, 255, 255, 0.92);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
 .profile-list {
   display: flex;
   flex-direction: column;
-  gap: 48px;
+  gap: 42px;
   max-width: 480px;
   margin: 0 auto;
 }
@@ -1962,7 +2014,7 @@ button {
 .profile-item__photo-wrapper {
   display: flex;
   justify-content: center;
-  margin-bottom: 18px;
+  margin-bottom: 16px;
 }
 
 .profile-item__photo-ring {
@@ -1970,7 +2022,7 @@ button {
   height: 170px;
   border-radius: 50%;
   padding: 4px;
-  border: 2px solid rgba(255, 255, 255, 0.45);
+  border: 2px solid rgba(232, 211, 185, 0.6);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1990,23 +2042,24 @@ button {
   display: block;
   font-family: var(--font-serif-jp);
   font-size: 0.85rem;
-  color: rgba(255, 255, 255, 0.85);
+  color: #E8D3B9;
   letter-spacing: 0.2em;
   margin-bottom: 4px;
 }
 
 .profile-item__name {
   font-family: var(--font-serif-jp);
-  font-size: 1.55rem;
+  font-size: 1.6rem;
   font-weight: 500;
   color: #FFFFFF;
   letter-spacing: 0.15em;
-  margin-bottom: 12px;
+  margin-bottom: 10px;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
 }
 
 .profile-item__message {
   font-family: var(--font-serif-jp);
-  font-size: 0.88rem;
+  font-size: 0.9rem;
   font-weight: 300;
   line-height: 2.1;
   color: rgba(255, 255, 255, 0.95);
@@ -2143,20 +2196,49 @@ button {
 
 .album-thumb.active {
   opacity: 1;
-  border-color: var(--color-gold-light);
+  border-color: #E8D3B9;
   transform: scale(1.08);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
 }
 
-/* RSVP Section Message */
+/* ============================================================
+   RSVP SECTION (Compact & Balanced Spacing)
+   ============================================================ */
+.thankyou {
+  background: #5B6647;
+  color: #FFFFFF;
+  padding: 50px 0 60px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.thankyou__inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  position: relative;
+  z-index: 1;
+  max-width: 540px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.thankyou .section-heading {
+  margin-bottom: 8px !important;
+}
+
+.thankyou__text {
+  margin: 0;
+}
+
 .thankyou__message {
   font-family: var(--font-serif-jp);
   font-size: 0.95rem;
-  line-height: 2.3;
+  line-height: 2.1;
   color: rgba(255, 255, 255, 0.95);
   letter-spacing: 0.05em;
   text-align: center;
-  margin-bottom: var(--space-lg);
+  margin-bottom: 4px;
 }
 
 .thankyou__deadline {
@@ -2164,10 +2246,42 @@ button {
   font-weight: 500;
   color: #FFFFFF;
   text-decoration: underline;
-  text-underline-offset: 5px;
+  text-underline-offset: 4px;
   display: inline-block;
-  margin: 6px 0;
+  margin: 4px 0;
   letter-spacing: 0.05em;
+}
+
+.thankyou__rsvp-box {
+  background: transparent !important;
+  backdrop-filter: none !important;
+  border: none !important;
+  padding: 0 !important;
+  margin-top: 8px;
+  text-align: center;
+}
+
+.thankyou__rsvp-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: linear-gradient(135deg, #D4AF37 0%, #C99A50 100%);
+  color: #FFFFFF;
+  padding: 14px 44px;
+  border-radius: var(--radius-pill);
+  font-family: var(--font-sans-jp);
+  font-size: 0.95rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+  transition: all 0.3s ease;
+  text-decoration: none;
+}
+
+.thankyou__rsvp-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(212, 175, 55, 0.4);
 }
 
 @media (max-width: 768px) {
@@ -2195,6 +2309,7 @@ button {
     height: 42px;
   }
 }
+
 
 
 
