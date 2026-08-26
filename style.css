@@ -203,7 +203,7 @@ button {
 }
 
 /* ============================================================
-   NAVIGATION
+   NAVIGATION (Floating Header)
    ============================================================ */
 .nav {
   position: fixed;
@@ -211,73 +211,50 @@ button {
   left: 0;
   right: 0;
   z-index: 1000;
-  background: rgba(255, 248, 240, 0.92);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border-bottom: 1px solid rgba(201, 169, 110, 0.15);
+  background: transparent;
+  pointer-events: none;
   height: var(--nav-height);
   transition: var(--transition-base);
 }
 
 .nav.scrolled {
-  background: rgba(255, 248, 240, 0.98);
-  box-shadow: var(--shadow-soft);
+  background: rgba(255, 248, 240, 0.95);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  pointer-events: auto;
 }
 
 .nav__inner {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-end;
   height: 100%;
   max-width: var(--max-width);
   margin: 0 auto;
   padding: 0 var(--space-md);
-}
-
-.nav__logo {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-decoration: none;
-}
-
-.nav__logo-main {
-  font-family: var(--font-serif-en);
-  font-size: 1.1rem;
-  letter-spacing: 0.15em;
-  font-weight: 500;
-  color: var(--color-brown);
-}
-
-.nav__logo-sub {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-family: var(--font-display);
-  font-size: 0.65rem;
-  letter-spacing: 0.2em;
-  color: var(--color-gold);
-  margin-top: 2px;
-}
-
-.nav__logo-line {
-  width: 16px;
-  height: 1px;
-  background: var(--color-gold-light);
+  pointer-events: auto;
 }
 
 .nav__menu {
   display: flex;
   align-items: center;
   gap: var(--space-md);
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  padding: 6px 18px;
+  border-radius: 30px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.5);
 }
 
 .nav__link {
   font-family: var(--font-serif-en);
-  font-size: 0.7rem;
+  font-size: 0.75rem;
   letter-spacing: 0.15em;
   text-transform: uppercase;
-  color: var(--color-brown-medium);
+  color: var(--color-brown);
   position: relative;
   padding: 4px 0;
 }
@@ -335,26 +312,42 @@ button {
 .nav__hamburger {
   display: none;
   flex-direction: column;
+  align-items: center;
+  justify-content: center;
   gap: 5px;
-  width: 28px;
-  padding: 4px 0;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+  transition: all 0.3s ease;
 }
 
 .nav__hamburger span {
   display: block;
-  height: 1.5px;
-  background: var(--color-brown);
-  transition: var(--transition-base);
+  width: 20px;
+  height: 2px;
+  background: #FFFFFF;
   border-radius: 2px;
+  transition: var(--transition-base);
+}
+
+.nav__hamburger:hover {
+  background: rgba(0, 0, 0, 0.55);
+  transform: scale(1.05);
 }
 
 /* ============================================================
-   HERO SECTION (Full-Screen Visual with Overlaid Typography)
+   HERO SECTION (Full-Screen Edge-to-Edge Visual with Overlaid Typography)
    ============================================================ */
 .hero {
   position: relative;
   width: 100%;
-  background: var(--color-cream);
+  background: #1a1a1a;
   overflow: hidden;
   padding: 0;
   margin: 0;
@@ -363,13 +356,12 @@ button {
 .hero-cover {
   position: relative;
   width: 100%;
-  max-width: 600px;
+  max-width: 100%;
   margin: 0 auto;
-  min-height: 80vh;
-  height: 82vh;
-  max-height: 780px;
+  min-height: 100vh;
+  height: 100vh;
   overflow: hidden;
-  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.12);
+  box-shadow: none;
 }
 
 .hero-cover__img-wrapper {
@@ -392,10 +384,10 @@ button {
   inset: 0;
   background: linear-gradient(
     180deg,
-    rgba(0, 0, 0, 0.42) 0%,
-    rgba(0, 0, 0, 0.10) 25%,
+    rgba(0, 0, 0, 0.35) 0%,
+    rgba(0, 0, 0, 0.08) 25%,
     rgba(0, 0, 0, 0.05) 50%,
-    rgba(0, 0, 0, 0.40) 78%,
+    rgba(0, 0, 0, 0.35) 80%,
     rgba(0, 0, 0, 0.65) 100%
   );
   pointer-events: none;
@@ -1561,9 +1553,9 @@ button {
   }
 
   .hero-cover {
-    min-height: 80vh;
-    height: 84vh;
-    max-height: 85vh;
+    min-height: 100vh;
+    height: 100vh;
+    max-height: 100vh;
     box-shadow: none;
     border-radius: 0;
   }

@@ -354,9 +354,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const currentMl = parseFloat(currentStyle.marginLeft) || 0;
     slideLeft += currentMl;
 
-    const scrollPos = slideLeft - (viewportWidth - slideWidth) / 2;
-    albumTrack.style.transform = `translateX(-${scrollPos}px)`;
+    const scrollOffset = (viewportWidth - slideWidth) / 2 - slideLeft;
+    albumTrack.style.transform = `translateX(${scrollOffset}px)`;
   };
+
+  window.addEventListener('resize', () => {
+    updateAlbumSlide(currentAlbumIndex);
+  });
 
   albumThumbs.forEach((thumb) => {
     thumb.addEventListener('click', () => {
