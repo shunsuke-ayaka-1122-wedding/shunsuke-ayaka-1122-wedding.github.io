@@ -258,52 +258,67 @@
   </section>
 
   <!-- ========== DATE & VENUE / 日時・会場 ========== -->
-  <section class="gallery section-padding" id="info">
-    <div class="container">
-      <div class="section-heading fade-in">
+  <section class="party-info section-padding" id="info">
+    <div class="container" style="max-width: 580px;">
+      <div class="section-heading fade-in" style="margin-bottom: var(--space-lg);">
         <h2 class="section-heading__en">DATE &amp; VENUE</h2>
         <span class="section-heading__line"></span>
         <p class="section-heading__jp">挙式・披露宴のご案内</p>
       </div>
 
-      <div class="info-grid fade-in">
-        <!-- Date Card -->
-        <div class="info-card">
-          <div class="info-card__header">
-            <h3 class="info-card__title">挙式・披露宴</h3>
-          </div>
-          <div class="info-card__body">
-            <div class="info-card__row">
-              <span class="info-card__label">日時</span>
-              <div class="info-card__value">
-                <strong>2026年 11月 22日（日）</strong><br>
-                <span style="font-size: 0.8rem; color: var(--color-brown-medium);">
-                  挙式 11:00〜 ／ 披露宴 12:00〜
-                </span>
-              </div>
-            </div>
-            <div class="info-card__row">
-              <span class="info-card__label">会場</span>
-              <div class="info-card__value">
-                <strong>ロイヤルチェスター長崎<br><span style="display:inline-block; white-space:nowrap;">ホテル＆リトリート</span></strong><br>
-                <span style="font-size: 0.8rem; color: var(--color-brown-medium);">
-                  〒852-8156 長崎県長崎市赤迫3-6-10
-                </span>
-              </div>
-            </div>
-            <div class="info-card__row" style="border-bottom: none;">
-              <span class="info-card__label">TEL</span>
-              <div class="info-card__value">
-                095-856-1101
-              </div>
-            </div>
-          </div>
-        </div>
+      <!-- Main Date Banner -->
+      <div class="party-info__date-header fade-in">
+        <span class="party-info__date-label">開催日</span>
+        <p class="party-info__date-value">2026年11月22日 日曜日</p>
+      </div>
 
-        <!-- Photo -->
-        <div class="info-photo fade-in fade-in-delay-1">
-          <img src="assets/royal_chester.jpg" alt="ロイヤルチェスター長崎 ホテル＆リトリート" style="border-radius: var(--radius-lg); box-shadow: var(--shadow-medium); width: 100%; height: auto;">
+      <!-- Ceremony Card (挙式) -->
+      <div class="party-info__card fade-in">
+        <div class="party-info__card-title">
+          <span class="party-info__card-line"></span>
+          <h3>挙式</h3>
+          <span class="party-info__card-line"></span>
         </div>
+        <div class="party-info__card-time">
+          <span class="party-info__time-label">開始時刻</span>
+          <span class="party-info__time-val">11:00</span>
+        </div>
+        <p class="party-info__sub-time">受付 10:30 ／ 終了予定 11:45</p>
+      </div>
+
+      <!-- Reception Card (披露宴) -->
+      <div class="party-info__card fade-in">
+        <div class="party-info__card-title">
+          <span class="party-info__card-line"></span>
+          <h3>披露宴</h3>
+          <span class="party-info__card-line"></span>
+        </div>
+        <div class="party-info__card-time">
+          <span class="party-info__time-label">開始時刻</span>
+          <span class="party-info__time-val">12:00</span>
+        </div>
+        <p class="party-info__sub-time">受付 11:30 ／ お披楽喜 14:30</p>
+      </div>
+
+      <!-- Venue Info Card (会場情報) -->
+      <div class="party-info__venue-card fade-in">
+        <div class="party-info__card-title">
+          <span class="party-info__card-line"></span>
+          <h3>会場情報</h3>
+          <span class="party-info__card-line"></span>
+        </div>
+        <h4 class="party-info__venue-name">
+          ロイヤルチェスター長崎<br>
+          <span style="font-size: 0.95em;">ホテル＆リトリート</span>
+        </h4>
+        <p class="party-info__venue-zip">〒852-8156</p>
+        <p class="party-info__venue-addr">長崎県長崎市赤迫3-6-10</p>
+        <p class="party-info__venue-tel">TEL : 095-856-1101</p>
+      </div>
+
+      <!-- Venue Photo with straight square corners -->
+      <div class="party-info__photo fade-in">
+        <img src="assets/royal_chester.jpg" alt="ロイヤルチェスター長崎 ホテル＆リトリート">
       </div>
     </div>
   </section>
