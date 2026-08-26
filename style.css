@@ -358,10 +358,13 @@ button {
   width: 100%;
   max-width: 100%;
   margin: 0 auto;
-  min-height: 100vh;
   height: 100vh;
+  height: 100svh;
+  min-height: 100vh;
+  min-height: 100svh;
   overflow: hidden;
   box-shadow: none;
+  transform: translateZ(0);
 }
 
 .hero-cover__img-wrapper {
@@ -369,6 +372,8 @@ button {
   inset: 0;
   width: 100%;
   height: 100%;
+  overflow: hidden;
+  transform: translateZ(0);
 }
 
 .hero-cover__img {
@@ -377,6 +382,7 @@ button {
   object-fit: cover;
   object-position: center 15%;
   display: block;
+  transform: translateZ(0);
 }
 
 .hero-cover__overlay {
@@ -393,11 +399,11 @@ button {
   pointer-events: none;
 }
 
-/* Top-Left Horizontal Text: WEDDING */
+/* Top-Left Horizontal Text: WEDDING (Positioned naturally near couple) */
 .hero-cover__title-topleft {
   position: absolute;
-  top: 40px;
-  left: 24px;
+  top: clamp(80px, 14vh, 120px);
+  left: clamp(20px, 5vw, 32px);
   font-family: var(--font-serif-en);
   font-size: clamp(2.2rem, 7.5vw, 3.5rem);
   font-weight: 300;
@@ -1539,16 +1545,18 @@ button {
   }
 
   .hero-cover {
-    min-height: 100vh;
     height: 100vh;
-    max-height: 100vh;
+    height: 100svh;
+    min-height: 100vh;
+    min-height: 100svh;
+    max-height: 100svh;
     box-shadow: none;
     border-radius: 0;
   }
 
   .hero-cover__title-topleft {
-    top: 28px;
-    left: 18px;
+    top: clamp(65px, 12vh, 95px);
+    left: 20px;
   }
 
   .hero-cover__title-bottomright {
