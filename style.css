@@ -359,21 +359,20 @@ button {
   max-width: 100%;
   margin: 0 auto;
   height: 100vh;
-  height: 100svh;
-  min-height: 100vh;
-  min-height: 100svh;
+  height: var(--app-height, 100vh);
+  min-height: 520px;
   overflow: hidden;
   box-shadow: none;
-  transform: translateZ(0);
+  contain: paint;
 }
 
 .hero-cover__img-wrapper {
   position: absolute;
-  inset: 0;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
   overflow: hidden;
-  transform: translateZ(0);
 }
 
 .hero-cover__img {
@@ -382,7 +381,6 @@ button {
   object-fit: cover;
   object-position: center 15%;
   display: block;
-  transform: translateZ(0);
 }
 
 .hero-cover__overlay {
@@ -1540,16 +1538,15 @@ button {
     display: none;
   }
 
-  .nav__hamburger {
-    display: flex;
+  .nav {
+    display: none !important;
   }
 
   .hero-cover {
     height: 100vh;
-    height: 100svh;
-    min-height: 100vh;
-    min-height: 100svh;
-    max-height: 100svh;
+    height: var(--app-height, 100vh);
+    min-height: 520px;
+    max-height: none;
     box-shadow: none;
     border-radius: 0;
   }

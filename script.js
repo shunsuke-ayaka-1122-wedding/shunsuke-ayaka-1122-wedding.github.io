@@ -5,6 +5,18 @@
 
 document.addEventListener('DOMContentLoaded', () => {
   // ============================================================
+  // VIEWPORT HEIGHT STABILIZATION (Prevents LINE/mobile scroll jitter)
+  // ============================================================
+  const setAppHeight = () => {
+    const vh = window.innerHeight;
+    document.documentElement.style.setProperty('--app-height', `${vh}px`);
+  };
+  setAppHeight();
+  window.addEventListener('orientationchange', () => {
+    setTimeout(setAppHeight, 200);
+  });
+
+  // ============================================================
   // SCROLL ANIMATIONS (Intersection Observer)
   // ============================================================
   const observerOptions = {
