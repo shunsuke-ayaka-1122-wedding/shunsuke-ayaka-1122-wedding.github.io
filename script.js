@@ -38,50 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
     observer.observe(el);
   });
 
-  // ============================================================
-  // NAVIGATION - Scroll Effect
-  // ============================================================
-  const nav = document.getElementById('nav');
-  let lastScrollY = 0;
 
-  const handleScroll = () => {
-    const currentScrollY = window.scrollY;
-
-    if (currentScrollY > 50) {
-      nav.classList.add('scrolled');
-    } else {
-      nav.classList.remove('scrolled');
-    }
-
-    lastScrollY = currentScrollY;
-  };
-
-  window.addEventListener('scroll', handleScroll, { passive: true });
-
-  // ============================================================
-  // MOBILE MENU
-  // ============================================================
-  const hamburger = document.getElementById('nav-hamburger');
-  const mobileMenu = document.getElementById('mobile-menu');
-  const mobileMenuClose = document.getElementById('mobile-menu-close');
-  const mobileMenuLinks = document.querySelectorAll('.mobile-menu__link');
-
-  const toggleMobileMenu = (show) => {
-    if (show) {
-      mobileMenu.classList.add('active');
-      document.body.style.overflow = 'hidden';
-    } else {
-      mobileMenu.classList.remove('active');
-      document.body.style.overflow = '';
-    }
-  };
-
-  hamburger?.addEventListener('click', () => toggleMobileMenu(true));
-  mobileMenuClose?.addEventListener('click', () => toggleMobileMenu(false));
-
-  mobileMenuLinks.forEach(link => {
-    link.addEventListener('click', () => toggleMobileMenu(false));
-  });
 
   // ============================================================
   // SMOOTH SCROLL for Navigation Links
