@@ -24,31 +24,12 @@
         <li><a href="#access" class="nav__link">Access</a></li>
         <li><a href="invite/index.html" class="nav__rsvp" id="nav-rsvp">RSVP<span>ご出欠のご連絡</span></a></li>
       </ul>
-
-      <!-- Floating Hamburger Menu for Mobile -->
-      <button class="nav__hamburger" id="nav-hamburger" aria-label="メニューを開く">
-        <span></span>
-        <span></span>
-        <span></span>
-      </button>
     </div>
   </nav>
 
-  <!-- Mobile Menu -->
-  <div class="mobile-menu" id="mobile-menu">
-    <button class="mobile-menu__close" id="mobile-menu-close" aria-label="メニューを閉じる">✕</button>
-    <a href="#top" class="mobile-menu__link">Top</a>
-    <a href="#greeting" class="mobile-menu__link">Greeting</a>
-    <a href="#profile" class="mobile-menu__link">Profile</a>
-    <a href="#gallery" class="mobile-menu__link">Gallery</a>
-    <a href="#message" class="mobile-menu__link">Message</a>
-    <a href="#access" class="mobile-menu__link">Access</a>
-    <a href="invite/index.html" class="mobile-menu__link">RSVP</a>
-  </div>
-
   <!-- ========== HERO ========== -->
   <section class="hero" id="top">
-    <!-- Main Visual Cover with Overlay Text (Matching screenshot) -->
+    <!-- Main Visual Cover with Straight Top-Left WEDDING & Bottom-Right INVITATION -->
     <div class="hero-cover">
       <div class="hero-cover__img-wrapper">
         <img
@@ -60,33 +41,8 @@
         <div class="hero-cover__overlay"></div>
       </div>
 
-      <!-- Top-Right Curved Arch: WEDDING -->
-      <div class="hero-cover__arch-wrapper">
-        <svg class="hero-cover__arch-svg" viewBox="0 0 500 500" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <path id="weddingCurve" d="M 120 180 C 185 45, 375 35, 450 280" fill="none" />
-          </defs>
-          <text class="hero-cover__arch-text">
-            <textPath href="#weddingCurve" startOffset="50%" text-anchor="middle">
-              WEDDING
-            </textPath>
-          </text>
-        </svg>
-      </div>
-
-      <!-- Left Vertical Editorial Text: INVITATION -->
-      <div class="hero-cover__invitation">
-        <span>I</span>
-        <span>N</span>
-        <span>V</span>
-        <span>I</span>
-        <span>T</span>
-        <span>A</span>
-        <span>T</span>
-        <span>I</span>
-        <span>O</span>
-        <span>N</span>
-      </div>
+      <!-- Top-Left Horizontal Straight Text: WEDDING -->
+      <div class="hero-cover__title-topleft">WEDDING</div>
 
       <!-- Right Side Names: SHUNSUKE and AYAKA -->
       <div class="hero-cover__side-names">
@@ -94,6 +50,9 @@
         <span class="hero-cover__side-and">and</span>
         <span class="hero-cover__side-name">AYAKA</span>
       </div>
+
+      <!-- Bottom-Right Horizontal Straight Text: INVITATION -->
+      <div class="hero-cover__title-bottomright">INVITATION</div>
     </div>
 
     <!-- Countdown Section (Immediately below hero image) -->
