@@ -312,6 +312,9 @@ document.addEventListener('DOMContentLoaded', () => {
   // ============================================================
   // ALBUM SLIDER INTERACTIVITY (Centering track slide)
   // ============================================================
+  // ============================================================
+  // ALBUM SLIDER INTERACTIVITY (Centering track slide)
+  // ============================================================
   const albumTrack = document.getElementById('album-track');
   const albumSlides = document.querySelectorAll('.album-slider__slide');
   const albumThumbs = document.querySelectorAll('.album-thumb');
@@ -322,49 +325,61 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const updateAlbumSlide = (index) => {
     if (!albumSlides.length || !albumTrack || !albumViewport) return;
-    if (index < 0) index = albumSlides.length - 1;
-    if (index >= albumSlides.length) index = 0;
+    const total = albumSlides.length;
+    index = ((index % total) + total) % total;
     currentAlbumIndex = index;
 
     albumSlides.forEach((slide, i) => {
-      if (i === currentAlbumIndex) {
-        slide.classList.add('active');
-      } else {
-        slide.classList.remove('active');
-      }
+      slide.classList.toggle('active', i === currentAlbumIndex);
     });
 
     albumThumbs.forEach((thumb, i) => {
-      if (i === currentAlbumIndex) {
-        thumb.classList.add('active');
-      } else {
-        thumb.classList.remove('active');
-      }
+      thumb.classList.toggle('active', i === currentAlbumIndex);
     });
 
-    const activeSlide = albumSlides[currentAlbumIndex];
-    const viewportWidth = albumViewport.offsetWidth;
-    const slideWidth = activeSlide.offsetWidth;
-    const slideOffsetLeft = activeSlide.offsetLeft;
-    const scrollPos = slideOffsetLeft - (viewportWidth - slideWidth) / 2;
+    const targetSlide = albumSlides[currentAlbumIndex];
+    const viewportWidth = albumViewport.clientWidth;
+    const slideWidth = targetSlide.offsetWidth;
 
+    // Calculate exact static distance of targetSlide from the start of albumTrack
+    let slideLeft = 0;
+    for (let i = 0; i < currentAlbumIndex; i++) {
+      const s = albumSlides[i];
+      const style = window.getComputedStyle(s);
+      const ml = parseFloat(style.marginLeft) || 0;
+      const mr = parseFloat(style.marginRight) || 0;
+      slideLeft += s.offsetWidth + ml + mr;
+    }
+    const currentStyle = window.getComputedStyle(targetSlide);
+    const currentMl = parseFloat(currentStyle.marginLeft) || 0;
+    slideLeft += currentMl;
+
+    const scrollPos = slideLeft - (viewportWidth - slideWidth) / 2;
     albumTrack.style.transform = `translateX(-${scrollPos}px)`;
   };
 
-  albumThumbs.forEach((thumb, idx) => {
-    thumb.addEventListener('click', () => updateAlbumSlide(idx));
+  albumThumbs.forEach((thumb) => {
+    thumb.addEventListener('click', () => {
+      const idx = parseInt(thumb.getAttribute('data-index'), 10);
+      updateAlbumSlide(isNaN(idx) ? 0 : idx);
+    });
   });
 
-  albumSlides.forEach((slide, idx) => {
-    slide.addEventListener('click', () => updateAlbumSlide(idx));
+  albumSlides.forEach((slide) => {
+    slide.addEventListener('click', () => {
+      const idx = parseInt(slide.getAttribute('data-index'), 10);
+      updateAlbumSlide(isNaN(idx) ? 0 : idx);
+    });
   });
 
   albumPrevBtn?.addEventListener('click', (e) => {
+    e.preventDefault();
     e.stopPropagation();
     updateAlbumSlide(currentAlbumIndex - 1);
   });
 
   albumNextBtn?.addEventListener('click', (e) => {
+    e.preventDefault();
     e.stopPropagation();
     updateAlbumSlide(currentAlbumIndex + 1);
   });
@@ -390,10 +405,14 @@ document.addEventListener('DOMContentLoaded', () => {
     updateAlbumSlide(currentAlbumIndex);
   });
 
-  // Initial layout calculation after page assets settle
+  // Initial layout calculation after DOM ready and window load
   setTimeout(() => {
     updateAlbumSlide(0);
   }, 100);
+
+  window.addEventListener('load', () => {
+    updateAlbumSlide(0);
+  });
 
   // ============================================================
   // INITIAL LOAD ANIMATION
