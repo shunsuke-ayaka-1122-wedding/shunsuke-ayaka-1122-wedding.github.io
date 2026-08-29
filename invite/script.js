@@ -457,7 +457,6 @@ function renderStep3Allergies() {
               <option value="大人料理" ${comp.childInfo === '大人料理' ? 'selected' : ''}>大人と同じお料理</option>
               <option value="お子様ランチ" ${comp.childInfo === 'お子様ランチ' || !comp.childInfo ? 'selected' : ''}>お子様用のお料理（お子様ランチ）</option>
               <option value="お料理なし（席のみ）" ${comp.childInfo === 'お料理なし（席のみ）' ? 'selected' : ''}>お料理不要（お席のみ）</option>
-              <option value="ベビーカー持参" ${comp.childInfo === 'ベビーカー持参' ? 'selected' : ''}>ベビーカー持参（お席不要）</option>
             </select>
           </div>
           ` : ''}
