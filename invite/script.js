@@ -60,6 +60,9 @@ function showStep(step) {
       });
     }
 
+    // Render allergies dynamically if on step 3
+    if (step === 3) renderStep3Allergies();
+
     // Generate review if on step 4
     if (step === 4) generateReview();
   }
@@ -187,13 +190,25 @@ function validateStep(step) {
   }
 
   if (step === 3) {
-    const allergySelect = document.getElementById('allergy-select');
-    const allergyDetails = document.getElementById('allergy');
-    if (allergySelect && allergySelect.value === 'あり' && !allergyDetails.value.trim()) {
+    // Validate representative allergy
+    const repSelect = document.getElementById('allergy-select');
+    const repInput = document.getElementById('allergy');
+    if (repSelect && repSelect.value === 'あり' && (!repInput || !repInput.value.trim())) {
       showError('err-allergy');
-      allergyDetails.classList.add('error');
+      if (repInput) repInput.classList.add('error');
       isValid = false;
     }
+
+    // Validate companions allergy
+    companions.forEach(comp => {
+      const compSelect = document.getElementById(`comp-allergy-select-${comp.id}`);
+      const compInput = document.getElementById(`comp-allergy-input-${comp.id}`);
+      if (compSelect && compSelect.value === 'あり' && (!compInput || !compInput.value.trim())) {
+        showError(`err-comp-allergy-${comp.id}`);
+        if (compInput) compInput.classList.add('error');
+        isValid = false;
+      }
+    });
   }
 
   return isValid;
@@ -213,6 +228,8 @@ function clearErrors() {
 // COMPANION MANAGEMENT (連名・同伴者)
 // ============================================================
 let companions = [];
+let representativeAllergySelect = 'なし';
+let representativeAllergyText = '';
 
 function addCompanion() {
   const newComp = {
@@ -223,7 +240,7 @@ function addCompanion() {
     firstNameKana: '',
     relationship: '配偶者',
     allergy: '',
-    childInfo: ''
+    childInfo: 'お子様ランチ'
   };
   companions.push(newComp);
   renderCompanions();
@@ -238,13 +255,6 @@ function updateCompanionField(id, field, value) {
   const comp = companions.find(c => c.id === id);
   if (comp) {
     comp[field] = value;
-  }
-}
-
-function toggleChildOptions(id, rel) {
-  const group = document.getElementById(`comp-child-group-${id}`);
-  if (group) {
-    group.style.display = rel === 'お子様' ? 'block' : 'none';
   }
 }
 
@@ -304,10 +314,10 @@ function renderCompanions() {
         </div>
       </div>
 
-      <div class="form-group">
+      <div class="form-group" style="margin-bottom: 0;">
         <label class="form-label" for="comp-rel-${comp.id}">ご関係 <span class="required">必須</span></label>
         <select class="form-select comp-input" id="comp-rel-${comp.id}" 
-                onchange="updateCompanionField('${comp.id}', 'relationship', this.value); toggleChildOptions('${comp.id}', this.value);" required>
+                onchange="updateCompanionField('${comp.id}', 'relationship', this.value);" required>
           <option value="配偶者" ${comp.relationship === '配偶者' ? 'selected' : ''}>ご夫婦（配偶者）</option>
           <option value="お子様" ${comp.relationship === 'お子様' ? 'selected' : ''}>お子様</option>
           <option value="ご家族" ${comp.relationship === 'ご家族' ? 'selected' : ''}>ご家族（ご両親・ご兄弟など）</option>
@@ -315,27 +325,129 @@ function renderCompanions() {
           <option value="その他" ${comp.relationship === 'その他' ? 'selected' : ''}>その他</option>
         </select>
       </div>
-
-      <div class="form-group" id="comp-child-group-${comp.id}" style="${comp.relationship === 'お子様' ? 'display:block;' : 'display:none;'}">
-        <label class="form-label" for="comp-child-${comp.id}">お子様のお食事・お席について <span class="optional">任意</span></label>
-        <select class="form-select comp-input" id="comp-child-${comp.id}" 
-                onchange="updateCompanionField('${comp.id}', 'childInfo', this.value)">
-          <option value="">選択してください</option>
-          <option value="大人料理" ${comp.childInfo === '大人料理' ? 'selected' : ''}>大人と同じお料理</option>
-          <option value="お子様ランチ" ${comp.childInfo === 'お子様ランチ' ? 'selected' : ''}>お子様用のお料理（お子様ランチ）</option>
-          <option value="お料理なし（席のみ）" ${comp.childInfo === 'お料理なし（席のみ）' ? 'selected' : ''}>お料理不要（お席のみ）</option>
-          <option value="ベビーカー持参" ${comp.childInfo === 'ベビーカー持参' ? 'selected' : ''}>ベビーカー持参（お席不要）</option>
-        </select>
-      </div>
-
-      <div class="form-group" style="margin-bottom: 0;">
-        <label class="form-label" for="comp-allergy-${comp.id}">アレルギー・食事制限 <span class="optional">任意</span></label>
-        <input type="text" class="form-input comp-input" id="comp-allergy-${comp.id}" 
-               value="${comp.allergy}" placeholder="例：卵、乳製品（なしの場合は空欄）" 
-               oninput="updateCompanionField('${comp.id}', 'allergy', this.value)">
-      </div>
     </div>
   `).join('');
+}
+
+// ============================================================
+// STEP 3 ALLERGIES DYNAMIC RENDERING
+// ============================================================
+function toggleRepAllergy(val) {
+  representativeAllergySelect = val;
+  const details = document.getElementById('allergy-details');
+  if (details) {
+    details.style.display = val === 'あり' ? 'block' : 'none';
+    if (val === 'なし') {
+      representativeAllergyText = '';
+      const input = document.getElementById('allergy');
+      if (input) input.value = '';
+    }
+  }
+}
+
+function toggleCompAllergy(id, val) {
+  const comp = companions.find(c => c.id === id);
+  const details = document.getElementById(`comp-allergy-details-${id}`);
+  if (details) {
+    details.style.display = val === 'あり' ? 'block' : 'none';
+  }
+  if (comp && val === 'なし') {
+    comp.allergy = '';
+    const input = document.getElementById(`comp-allergy-input-${id}`);
+    if (input) input.value = '';
+  }
+}
+
+function renderStep3Allergies() {
+  const container = document.getElementById('allergy-cards-container');
+  if (!container) return;
+
+  const lastName = document.getElementById('last-name') ? document.getElementById('last-name').value.trim() : '';
+  const firstName = document.getElementById('first-name') ? document.getElementById('first-name').value.trim() : '';
+  const repName = `${lastName} ${firstName}`.trim() || 'ご本人';
+
+  const hasComps = companions && companions.length > 0;
+
+  let html = '';
+
+  // Representative Card
+  html += `
+    <div class="form-card" id="meal-card">
+      <h2 class="form-card__title">
+        <span class="form-card__title-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2M7 2v20M21 15V2v0a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3zm0 0v7"/></svg></span>
+        <span>${hasComps ? `【代表者：${repName} 様】のアレルギー` : 'アレルギー・食事制限について'}</span>
+      </h2>
+      <p class="form-card__desc">
+        ${hasComps ? `${repName} 様のアレルギーや食事制限についてご記入ください。` : 'アレルギーや食事制限がある方はご記入ください。'}
+      </p>
+
+      <div class="form-group">
+        <label class="form-label" for="allergy-select">アレルギー・食事制限の有無 <span class="required">必須</span></label>
+        <select class="form-select" id="allergy-select" name="allergySelect" onchange="toggleRepAllergy(this.value)">
+          <option value="なし" ${representativeAllergySelect === 'なし' ? 'selected' : ''}>なし</option>
+          <option value="あり" ${representativeAllergySelect === 'あり' ? 'selected' : ''}>あり</option>
+        </select>
+      </div>
+      <div class="form-group" id="allergy-details" style="${representativeAllergySelect === 'あり' ? 'display:block;' : 'display:none;'} margin-top: 16px;">
+        <label class="form-label" for="allergy">具体的な内容 <span class="required">必須</span></label>
+        <input type="text" class="form-input" id="allergy" name="allergy" value="${representativeAllergyText}" placeholder="例：エビ、カニ、小麦" oninput="representativeAllergyText = this.value; this.classList.remove('error'); document.getElementById('err-allergy')?.classList.remove('visible');">
+        <p class="form-error-msg" id="err-allergy">アレルギー等の詳細を入力してください</p>
+      </div>
+    </div>
+  `;
+
+  // Companion Cards
+  if (hasComps) {
+    companions.forEach((comp, idx) => {
+      const compName = `${comp.lastName} ${comp.firstName}`.trim() || `お連れ様 ${idx + 1}`;
+      const isChild = comp.relationship === 'お子様';
+      const hasAllergy = comp.allergy && comp.allergy.trim() !== '';
+
+      html += `
+        <div class="form-card" style="margin-top: 24px; border-top: 2px solid var(--color-gold-light);">
+          <h2 class="form-card__title">
+            <span class="form-card__title-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span>
+            <span>【お連れ様 ${idx + 1}：${compName} 様】のお食事・アレルギー</span>
+          </h2>
+          <p class="form-card__desc">
+            ${compName} 様（${comp.relationship}）のお食事やアレルギーについてご記入ください。
+          </p>
+
+          ${isChild ? `
+          <div class="form-group">
+            <label class="form-label" for="comp-child-${comp.id}">お子様のお食事・お席について <span class="required">必須</span></label>
+            <select class="form-select" id="comp-child-${comp.id}" 
+                    onchange="updateCompanionField('${comp.id}', 'childInfo', this.value)">
+              <option value="大人料理" ${comp.childInfo === '大人料理' ? 'selected' : ''}>大人と同じお料理</option>
+              <option value="お子様ランチ" ${comp.childInfo === 'お子様ランチ' || !comp.childInfo ? 'selected' : ''}>お子様用のお料理（お子様ランチ）</option>
+              <option value="お料理なし（席のみ）" ${comp.childInfo === 'お料理なし（席のみ）' ? 'selected' : ''}>お料理不要（お席のみ）</option>
+              <option value="ベビーカー持参" ${comp.childInfo === 'ベビーカー持参' ? 'selected' : ''}>ベビーカー持参（お席不要）</option>
+            </select>
+          </div>
+          ` : ''}
+
+          <div class="form-group">
+            <label class="form-label" for="comp-allergy-select-${comp.id}">アレルギー・食事制限の有無 <span class="required">必須</span></label>
+            <select class="form-select" id="comp-allergy-select-${comp.id}" 
+                    onchange="toggleCompAllergy('${comp.id}', this.value)">
+              <option value="なし" ${!hasAllergy ? 'selected' : ''}>なし</option>
+              <option value="あり" ${hasAllergy ? 'selected' : ''}>あり</option>
+            </select>
+          </div>
+
+          <div class="form-group" id="comp-allergy-details-${comp.id}" style="${hasAllergy ? 'display:block;' : 'display:none;'} margin-top: 16px;">
+            <label class="form-label" for="comp-allergy-input-${comp.id}">具体的な内容 <span class="required">必須</span></label>
+            <input type="text" class="form-input" id="comp-allergy-input-${comp.id}" 
+                   value="${comp.allergy}" placeholder="例：卵、乳製品" 
+                   oninput="updateCompanionField('${comp.id}', 'allergy', this.value); this.classList.remove('error'); document.getElementById('err-comp-allergy-${comp.id}')?.classList.remove('visible');">
+            <p class="form-error-msg" id="err-comp-allergy-${comp.id}">アレルギー等の詳細を入力してください</p>
+          </div>
+        </div>
+      `;
+    });
+  }
+
+  container.innerHTML = html;
 }
 
 document.addEventListener('DOMContentLoaded', () => {
