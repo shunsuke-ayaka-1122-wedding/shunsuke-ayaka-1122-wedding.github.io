@@ -211,7 +211,29 @@ function validateStep(step) {
     });
   }
 
+  if (!isValid) {
+    scrollToFirstError();
+  }
+
   return isValid;
+}
+
+function scrollToFirstError() {
+  setTimeout(() => {
+    const firstError = document.querySelector('.form-input.error, .form-select.error, .form-error-msg.visible');
+    if (firstError) {
+      const scrollTarget = firstError.closest('.form-group') || firstError;
+      scrollTarget.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      
+      const inputEl = firstError.classList.contains('form-input') || firstError.classList.contains('form-select') 
+        ? firstError 
+        : scrollTarget.querySelector('.form-input, .form-select');
+        
+      if (inputEl && typeof inputEl.focus === 'function') {
+        inputEl.focus({ preventScroll: true });
+      }
+    }
+  }, 60);
 }
 
 function showError(id) {

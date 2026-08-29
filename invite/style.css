@@ -284,15 +284,16 @@ button { border: none; background: none; cursor: pointer; font-family: inherit; 
 }
 
 .form-card__title {
-  font-family: var(--font-display);
-  font-size: 1.2rem;
-  font-weight: 400;
-  letter-spacing: 0.1em;
+  font-family: var(--font-serif-jp), 'Noto Sans JP', sans-serif;
+  font-size: 1.15rem;
+  font-weight: 500;
+  letter-spacing: 0.05em;
   color: var(--color-brown);
   margin-bottom: 6px;
   display: flex;
   align-items: center;
   gap: 10px;
+  font-variant-numeric: normal;
 }
 
 .form-card__title-icon {
@@ -354,19 +355,18 @@ button { border: none; background: none; cursor: pointer; font-family: inherit; 
   font-size: 0.9rem;
   font-weight: 300;
   color: var(--color-brown);
-  background: var(--color-cream-light);
+  background-color: var(--color-cream-light);
   border: 1.5px solid var(--color-cream-dark);
   border-radius: var(--radius-md);
   outline: none;
-  transition: var(--transition);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
   -webkit-appearance: none;
 }
 
 .form-input:focus,
-.form-select:focus,
 .form-textarea:focus {
   border-color: var(--color-sage);
-  background: var(--color-white);
+  background-color: var(--color-white);
   box-shadow: 0 0 0 3px rgba(163, 177, 138, 0.15);
 }
 
@@ -404,7 +404,14 @@ button { border: none; background: none; cursor: pointer; font-family: inherit; 
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236B6360' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: right 16px center;
+  background-size: 12px 12px;
   padding-right: 40px;
+}
+
+.form-select:focus {
+  border-color: var(--color-sage);
+  background-color: var(--color-white);
+  box-shadow: 0 0 0 3px rgba(163, 177, 138, 0.15);
 }
 
 .form-hint {
@@ -1215,13 +1222,14 @@ button { border: none; background: none; cursor: pointer; font-family: inherit; 
 }
 
 .companion-title {
-  font-family: var(--font-serif-jp);
+  font-family: var(--font-sans-jp);
   font-size: 0.95rem;
   font-weight: 500;
   color: var(--color-brown);
   display: flex;
   align-items: center;
   gap: 8px;
+  font-variant-numeric: normal;
 }
 
 .companion-badge {
