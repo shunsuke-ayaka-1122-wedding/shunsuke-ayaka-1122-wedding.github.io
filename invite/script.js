@@ -220,20 +220,34 @@ function validateStep(step) {
 
 function scrollToFirstError() {
   setTimeout(() => {
-    const firstError = document.querySelector('.form-input.error, .form-select.error, .form-error-msg.visible');
+    const activeStepEl = document.querySelector('.rsvp-step.active') || document;
+    
+    // Find first error specifically inside the currently active step
+    const firstError = activeStepEl.querySelector('.form-input.error, .form-select.error, .form-error-msg.visible');
     if (firstError) {
       const scrollTarget = firstError.closest('.form-group') || firstError;
-      scrollTarget.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      const rect = scrollTarget.getBoundingClientRect();
+      const currentScrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      const targetY = currentScrollTop + rect.top - 80;
+
+      window.scrollTo({
+        top: Math.max(0, targetY),
+        behavior: 'smooth'
+      });
       
       const inputEl = firstError.classList.contains('form-input') || firstError.classList.contains('form-select') 
         ? firstError 
         : scrollTarget.querySelector('.form-input, .form-select');
         
-      if (inputEl && typeof inputEl.focus === 'function') {
-        inputEl.focus({ preventScroll: true });
+      if (inputEl) {
+        setTimeout(() => {
+          try {
+            inputEl.focus({ preventScroll: true });
+          } catch(e) {}
+        }, 300);
       }
     }
-  }, 60);
+  }, 40);
 }
 
 function showError(id) {

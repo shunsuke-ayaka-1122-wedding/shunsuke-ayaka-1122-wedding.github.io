@@ -376,11 +376,18 @@ button { border: none; background: none; cursor: pointer; font-family: inherit; 
   opacity: 0.6;
 }
 
+@keyframes errorPulse {
+  0%, 100% { transform: translateX(0); }
+  20%, 60% { transform: translateX(-4px); }
+  40%, 80% { transform: translateX(4px); }
+}
+
 .form-input.error,
 .form-select.error,
 .form-textarea.error {
-  border-color: var(--color-error);
-  box-shadow: 0 0 0 3px rgba(200, 90, 84, 0.1);
+  border-color: var(--color-error) !important;
+  box-shadow: 0 0 0 3px rgba(200, 90, 84, 0.2) !important;
+  animation: errorPulse 0.4s ease;
 }
 
 .form-error-msg {
@@ -392,6 +399,7 @@ button { border: none; background: none; cursor: pointer; font-family: inherit; 
 
 .form-error-msg.visible {
   display: block;
+  animation: fadeIn 0.3s ease;
 }
 
 .form-textarea {
