@@ -276,7 +276,7 @@ function addCompanion() {
     firstNameKana: '',
     relationship: '配偶者',
     allergy: '',
-    childInfo: 'お子様ランチ'
+    childInfo: ''
   };
   companions.push(newComp);
   renderCompanions();
@@ -291,6 +291,13 @@ function updateCompanionField(id, field, value) {
   const comp = companions.find(c => c.id === id);
   if (comp) {
     comp[field] = value;
+    if (field === 'relationship') {
+      if (value !== 'お子様') {
+        comp.childInfo = '';
+      } else if (!comp.childInfo) {
+        comp.childInfo = 'お子様ランチ';
+      }
+    }
   }
 }
 
@@ -536,7 +543,7 @@ function generateReview() {
       rows.push(['ご出席人数', `合計 ${data.companions.length + 1}名（代表者様 1名 ＋ お連れ様 ${data.companions.length}名）`]);
       data.companions.forEach((c, i) => {
         let compText = `<strong>${c.lastName} ${c.firstName} 様</strong>（${c.relationship}）<br><span style="font-size:0.75rem; color:#888;">フリガナ: ${c.lastNameKana} ${c.firstNameKana}`;
-        if (c.childInfo) compText += ` / お食事: ${c.childInfo}`;
+        if (c.relationship === 'お子様' && c.childInfo) compText += ` / お食事: ${c.childInfo}`;
         if (c.allergy) compText += ` / アレルギー: ${c.allergy}`;
         compText += `</span>`;
         rows.push([`お連れ様 ${i + 1}`, compText]);
@@ -599,7 +606,7 @@ function collectFormData() {
       firstNameKana: c.firstNameKana.trim(),
       relationship: c.relationship,
       allergy: c.allergy ? c.allergy.trim() : '',
-      childInfo: c.childInfo ? c.childInfo.trim() : ''
+      childInfo: c.relationship === 'お子様' ? (c.childInfo ? c.childInfo.trim() : 'お子様ランチ') : ''
     }))
   };
 }
@@ -691,7 +698,7 @@ function showConfirmation(data) {
       rows.push(['ご出席人数', `合計 ${data.companions.length + 1}名（代表者様 1名 ＋ お連れ様 ${data.companions.length}名）`]);
       data.companions.forEach((c, i) => {
         let compText = `${c.lastName} ${c.firstName} 様（${c.relationship}）`;
-        if (c.childInfo) compText += ` / ${c.childInfo}`;
+        if (c.relationship === 'お子様' && c.childInfo) compText += ` / ${c.childInfo}`;
         if (c.allergy) compText += ` / アレルギー: ${c.allergy}`;
         rows.push([`お連れ様 ${i + 1}`, compText]);
       });
@@ -794,7 +801,7 @@ async function exportCSV() {
     if (hasComps) {
       r.companions.forEach((c, idx) => {
         let allergyAndChild = c.allergy || 'なし';
-        if (c.childInfo) allergyAndChild += ` [食事: ${c.childInfo}]`;
+        if (c.relationship === 'お子様' && c.childInfo) allergyAndChild += ` [食事: ${c.childInfo}]`;
 
         rows.push([
           '〃',

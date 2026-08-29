@@ -253,7 +253,7 @@
                 <td style="font-size: 0.72rem; color: #AAA;">(同上)</td>
                 <td style="font-size: 0.75rem; color: ${c.allergy && c.allergy !== 'なし' ? 'var(--color-error)' : 'var(--color-brown-light)'};">
                   ${c.allergy || 'なし'}
-                  ${c.childInfo ? `<br><small style="color: var(--color-brown); font-weight: 500;">[${c.childInfo}]</small>` : ''}
+                  ${c.relationship === 'お子様' && c.childInfo ? `<br><small style="color: var(--color-brown); font-weight: 500;">[${c.childInfo}]</small>` : ''}
                 </td>
                 <td style="font-size: 0.72rem; color: #AAA;">(同上)</td>
                 <td style="font-size: 0.72rem; color: #AAA;">—</td>
