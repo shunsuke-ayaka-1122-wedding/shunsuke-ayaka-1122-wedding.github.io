@@ -196,6 +196,25 @@
             </select>
             <p class="form-error-msg" id="err-relationship">関係を選択してください</p>
           </div>
+
+          <!-- Companions (連名・お連れ様) -->
+          <div class="form-group group-absent-hide" style="margin-top: 24px; padding-top: 20px; border-top: 1px dashed rgba(201, 169, 110, 0.35);">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px;">
+              <label class="form-label" style="margin-bottom: 0;">お連れ様・ご家族の追加 <span class="optional">連名の場合</span></label>
+            </div>
+            <p style="font-size: 0.8rem; color: var(--color-brown-medium); margin-bottom: 12px; line-height: 1.6;">
+              ご夫婦やご家族でご出席される場合は、下のボタンよりお連れ様の情報をご入力ください。
+            </p>
+
+            <div id="companions-container">
+              <!-- Companions will be injected here -->
+            </div>
+
+            <button type="button" class="btn-add-companion" id="btn-add-companion" onclick="addCompanion()">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>
+              ＋ お連れ様・ご家族を追加する
+            </button>
+          </div>
         </div>
 
         <div class="form-nav">

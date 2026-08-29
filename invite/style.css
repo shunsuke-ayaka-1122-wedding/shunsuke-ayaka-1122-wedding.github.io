@@ -1191,3 +1191,118 @@ button { border: none; background: none; cursor: pointer; font-family: inherit; 
   margin-bottom: 16px;
   letter-spacing: 0.2em;
 }
+
+/* ============================================================
+   COMPANIONS (連名・同伴者)
+   ============================================================ */
+.companion-card {
+  background: #FDFBF7;
+  border: 1px solid rgba(201, 169, 110, 0.35);
+  border-radius: var(--radius-md);
+  padding: 20px 18px;
+  margin-bottom: 16px;
+  position: relative;
+  animation: fadeIn 0.3s ease;
+}
+
+.companion-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+  padding-bottom: 10px;
+  border-bottom: 1px dashed rgba(201, 169, 110, 0.3);
+}
+
+.companion-title {
+  font-family: var(--font-serif-jp);
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--color-brown);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.companion-badge {
+  font-size: 0.7rem;
+  padding: 2px 8px;
+  background: var(--color-gold-light);
+  color: var(--color-brown);
+  border-radius: var(--radius-pill);
+  font-weight: 400;
+}
+
+.companion-remove {
+  background: none;
+  border: 1px solid rgba(193, 136, 106, 0.4);
+  color: var(--color-terra);
+  font-size: 0.75rem;
+  padding: 4px 10px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  transition: var(--transition);
+}
+
+.companion-remove:hover {
+  background: var(--color-terra);
+  color: #FFFFFF;
+}
+
+.btn-add-companion {
+  width: 100%;
+  padding: 12px 18px;
+  background: #FFFFFF;
+  border: 1.5px dashed var(--color-gold);
+  color: var(--color-brown);
+  font-family: var(--font-serif-jp);
+  font-size: 0.88rem;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: var(--transition);
+  margin-top: 10px;
+}
+
+.btn-add-companion:hover {
+  background: rgba(210, 168, 104, 0.08);
+  border-color: var(--color-gold);
+  transform: translateY(-1px);
+}
+
+/* Admin Table Companion Styles */
+.admin-row--companion {
+  background-color: #FAF8F5;
+  border-left: 3px solid var(--color-gold);
+}
+
+.admin-row--companion td {
+  color: var(--color-brown-medium);
+  font-size: 0.74rem;
+}
+
+.badge--companion {
+  background: #EFE9DE;
+  color: #6E5D47;
+  font-size: 0.68rem;
+  padding: 2px 6px;
+  border-radius: 3px;
+  margin-right: 4px;
+}
+
+.badge--companion-main {
+  background: rgba(139, 154, 107, 0.15);
+  color: var(--color-sage-dark);
+  font-size: 0.68rem;
+  padding: 2px 6px;
+  border-radius: 3px;
+  margin-left: 6px;
+  font-weight: normal;
+}
+

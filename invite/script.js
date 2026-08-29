@@ -154,6 +154,35 @@ function validateStep(step) {
         rel.classList.add('error');
         isValid = false;
       }
+
+      // Validate companions if any
+      companions.forEach(comp => {
+        const lastEl = document.getElementById(`comp-last-${comp.id}`);
+        const firstEl = document.getElementById(`comp-first-${comp.id}`);
+        const lastKanaEl = document.getElementById(`comp-last-kana-${comp.id}`);
+        const firstKanaEl = document.getElementById(`comp-first-kana-${comp.id}`);
+
+        if (lastEl && !lastEl.value.trim()) {
+          showError(`err-comp-last-${comp.id}`);
+          lastEl.classList.add('error');
+          isValid = false;
+        }
+        if (firstEl && !firstEl.value.trim()) {
+          showError(`err-comp-first-${comp.id}`);
+          firstEl.classList.add('error');
+          isValid = false;
+        }
+        if (lastKanaEl && !lastKanaEl.value.trim()) {
+          showError(`err-comp-last-kana-${comp.id}`);
+          lastKanaEl.classList.add('error');
+          isValid = false;
+        }
+        if (firstKanaEl && !firstKanaEl.value.trim()) {
+          showError(`err-comp-first-kana-${comp.id}`);
+          firstKanaEl.classList.add('error');
+          isValid = false;
+        }
+      });
     }
   }
 
@@ -181,8 +210,134 @@ function clearErrors() {
 }
 
 // ============================================================
-// COMPANION SECTION TOGGLE
+// COMPANION MANAGEMENT (連名・同伴者)
 // ============================================================
+let companions = [];
+
+function addCompanion() {
+  const newComp = {
+    id: 'c_' + Date.now() + Math.random().toString(36).substr(2, 4),
+    lastName: document.getElementById('last-name') ? document.getElementById('last-name').value.trim() : '',
+    firstName: '',
+    lastNameKana: document.getElementById('last-name-kana') ? document.getElementById('last-name-kana').value.trim() : '',
+    firstNameKana: '',
+    relationship: '配偶者',
+    allergy: '',
+    childInfo: ''
+  };
+  companions.push(newComp);
+  renderCompanions();
+}
+
+function removeCompanion(id) {
+  companions = companions.filter(c => c.id !== id);
+  renderCompanions();
+}
+
+function updateCompanionField(id, field, value) {
+  const comp = companions.find(c => c.id === id);
+  if (comp) {
+    comp[field] = value;
+  }
+}
+
+function toggleChildOptions(id, rel) {
+  const group = document.getElementById(`comp-child-group-${id}`);
+  if (group) {
+    group.style.display = rel === 'お子様' ? 'block' : 'none';
+  }
+}
+
+function renderCompanions() {
+  const container = document.getElementById('companions-container');
+  if (!container) return;
+
+  if (companions.length === 0) {
+    container.innerHTML = '';
+    return;
+  }
+
+  container.innerHTML = companions.map((comp, idx) => `
+    <div class="companion-card" id="card-${comp.id}">
+      <div class="companion-header">
+        <div class="companion-title">
+          <span>お連れ様 ${idx + 1}</span>
+          <span class="companion-badge">連名</span>
+        </div>
+        <button type="button" class="companion-remove" onclick="removeCompanion('${comp.id}')">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+          削除
+        </button>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label" for="comp-last-${comp.id}">姓 <span class="required">必須</span></label>
+          <input type="text" class="form-input comp-input" id="comp-last-${comp.id}" 
+                 value="${comp.lastName}" placeholder="鳥越" 
+                 oninput="updateCompanionField('${comp.id}', 'lastName', this.value); this.classList.remove('error'); document.getElementById('err-comp-last-${comp.id}')?.classList.remove('visible');" required>
+          <p class="form-error-msg" id="err-comp-last-${comp.id}">お連れ様の姓を入力してください</p>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="comp-first-${comp.id}">名 <span class="required">必須</span></label>
+          <input type="text" class="form-input comp-input" id="comp-first-${comp.id}" 
+                 value="${comp.firstName}" placeholder="花子" 
+                 oninput="updateCompanionField('${comp.id}', 'firstName', this.value); this.classList.remove('error'); document.getElementById('err-comp-first-${comp.id}')?.classList.remove('visible');" required>
+          <p class="form-error-msg" id="err-comp-first-${comp.id}">お連れ様の名を入力してください</p>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label" for="comp-last-kana-${comp.id}">セイ <span class="required">必須</span></label>
+          <input type="text" class="form-input comp-input" id="comp-last-kana-${comp.id}" 
+                 value="${comp.lastNameKana}" placeholder="トリゴエ" 
+                 oninput="updateCompanionField('${comp.id}', 'lastNameKana', this.value); this.classList.remove('error'); document.getElementById('err-comp-last-kana-${comp.id}')?.classList.remove('visible');" required>
+          <p class="form-error-msg" id="err-comp-last-kana-${comp.id}">フリガナを入力してください</p>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="comp-first-kana-${comp.id}">メイ <span class="required">必須</span></label>
+          <input type="text" class="form-input comp-input" id="comp-first-kana-${comp.id}" 
+                 value="${comp.firstNameKana}" placeholder="ハナコ" 
+                 oninput="updateCompanionField('${comp.id}', 'firstNameKana', this.value); this.classList.remove('error'); document.getElementById('err-comp-first-kana-${comp.id}')?.classList.remove('visible');" required>
+          <p class="form-error-msg" id="err-comp-first-kana-${comp.id}">フリガナを入力してください</p>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="comp-rel-${comp.id}">ご関係 <span class="required">必須</span></label>
+        <select class="form-select comp-input" id="comp-rel-${comp.id}" 
+                onchange="updateCompanionField('${comp.id}', 'relationship', this.value); toggleChildOptions('${comp.id}', this.value);" required>
+          <option value="配偶者" ${comp.relationship === '配偶者' ? 'selected' : ''}>ご夫婦（配偶者）</option>
+          <option value="お子様" ${comp.relationship === 'お子様' ? 'selected' : ''}>お子様</option>
+          <option value="ご家族" ${comp.relationship === 'ご家族' ? 'selected' : ''}>ご家族（ご両親・ご兄弟など）</option>
+          <option value="ご友人" ${comp.relationship === 'ご友人' ? 'selected' : ''}>ご友人</option>
+          <option value="その他" ${comp.relationship === 'その他' ? 'selected' : ''}>その他</option>
+        </select>
+      </div>
+
+      <div class="form-group" id="comp-child-group-${comp.id}" style="${comp.relationship === 'お子様' ? 'display:block;' : 'display:none;'}">
+        <label class="form-label" for="comp-child-${comp.id}">お子様のお食事・お席について <span class="optional">任意</span></label>
+        <select class="form-select comp-input" id="comp-child-${comp.id}" 
+                onchange="updateCompanionField('${comp.id}', 'childInfo', this.value)">
+          <option value="">選択してください</option>
+          <option value="大人料理" ${comp.childInfo === '大人料理' ? 'selected' : ''}>大人と同じお料理</option>
+          <option value="お子様ランチ" ${comp.childInfo === 'お子様ランチ' ? 'selected' : ''}>お子様用のお料理（お子様ランチ）</option>
+          <option value="お料理なし（席のみ）" ${comp.childInfo === 'お料理なし（席のみ）' ? 'selected' : ''}>お料理不要（お席のみ）</option>
+          <option value="ベビーカー持参" ${comp.childInfo === 'ベビーカー持参' ? 'selected' : ''}>ベビーカー持参（お席不要）</option>
+        </select>
+      </div>
+
+      <div class="form-group" style="margin-bottom: 0;">
+        <label class="form-label" for="comp-allergy-${comp.id}">アレルギー・食事制限 <span class="optional">任意</span></label>
+        <input type="text" class="form-input comp-input" id="comp-allergy-${comp.id}" 
+               value="${comp.allergy}" placeholder="例：卵、乳製品（なしの場合は空欄）" 
+               oninput="updateCompanionField('${comp.id}', 'allergy', this.value)">
+      </div>
+    </div>
+  `).join('');
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   // Init
   window.scrollTo(0, 0);
@@ -224,17 +379,29 @@ function generateReview() {
 
   const rows = [
     ['ご出欠', data.attendance],
-    ['お名前', `${data.lastName} ${data.firstName}`],
+    ['代表者様 お名前', `${data.lastName} ${data.firstName}`],
   ];
 
   if (data.attendance !== '欠席') {
     rows.push(['フリガナ', `${data.lastNameKana} ${data.firstNameKana}`]);
+
+    if (data.companions && data.companions.length > 0) {
+      rows.push(['ご出席人数', `合計 ${data.companions.length + 1}名（代表者様 1名 ＋ お連れ様 ${data.companions.length}名）`]);
+      data.companions.forEach((c, i) => {
+        let compText = `<strong>${c.lastName} ${c.firstName} 様</strong>（${c.relationship}）<br><span style="font-size:0.75rem; color:#888;">フリガナ: ${c.lastNameKana} ${c.firstNameKana}`;
+        if (c.childInfo) compText += ` / お食事: ${c.childInfo}`;
+        if (c.allergy) compText += ` / アレルギー: ${c.allergy}`;
+        compText += `</span>`;
+        rows.push([`お連れ様 ${i + 1}`, compText]);
+      });
+    }
+
     rows.push(['郵便番号', data.postalCode]);
     rows.push(['ご住所', data.address]);
     rows.push(['メールアドレス', data.email]);
     if (data.phone) rows.push(['電話番号', data.phone]);
     rows.push(['新郎新婦との関係', data.relationship]);
-    if (data.allergy) rows.push(['アレルギー', data.allergy]);
+    if (data.allergy) rows.push(['代表者様 アレルギー', data.allergy]);
     rows.push(['送迎バス', data.shuttle]);
   }
 
@@ -259,6 +426,7 @@ function generateReview() {
 function collectFormData() {
   const attendance = document.querySelector('input[name="attendance"]:checked');
   const shuttle = document.querySelector('input[name="shuttle"]:checked');
+  const isAbsent = attendance && attendance.value === '欠席';
 
   return {
     id: Date.now().toString(36) + Math.random().toString(36).substr(2, 5),
@@ -266,16 +434,26 @@ function collectFormData() {
     attendance: attendance ? attendance.value : '',
     lastName: document.getElementById('last-name').value.trim(),
     firstName: document.getElementById('first-name').value.trim(),
-    lastNameKana: document.getElementById('last-name-kana').value.trim(),
-    firstNameKana: document.getElementById('first-name-kana').value.trim(),
-    email: document.getElementById('email').value.trim(),
+    lastNameKana: document.getElementById('last-name-kana') ? document.getElementById('last-name-kana').value.trim() : '',
+    firstNameKana: document.getElementById('first-name-kana') ? document.getElementById('first-name-kana').value.trim() : '',
+    email: document.getElementById('email') ? document.getElementById('email').value.trim() : '',
     postalCode: document.getElementById('postal-code') ? document.getElementById('postal-code').value.trim() : '',
     address: document.getElementById('address') ? document.getElementById('address').value.trim() : '',
-    phone: document.getElementById('phone').value.trim(),
-    relationship: document.getElementById('relationship').value,
+    phone: document.getElementById('phone') ? document.getElementById('phone').value.trim() : '',
+    relationship: document.getElementById('relationship') ? document.getElementById('relationship').value : '',
     allergy: document.getElementById('allergy-select') && document.getElementById('allergy-select').value === 'あり' ? document.getElementById('allergy').value.trim() : 'なし',
     shuttle: shuttle ? shuttle.value : '利用しない',
-    message: document.getElementById('message').value.trim(),
+    message: document.getElementById('message') ? document.getElementById('message').value.trim() : '',
+    companions: isAbsent ? [] : companions.map(c => ({
+      id: c.id,
+      lastName: c.lastName.trim(),
+      firstName: c.firstName.trim(),
+      lastNameKana: c.lastNameKana.trim(),
+      firstNameKana: c.firstNameKana.trim(),
+      relationship: c.relationship,
+      allergy: c.allergy ? c.allergy.trim() : '',
+      childInfo: c.childInfo ? c.childInfo.trim() : ''
+    }))
   };
 }
 
@@ -358,13 +536,22 @@ function showConfirmation(data) {
   const summary = document.getElementById('confirm-summary');
   const rows = [
     ['ご出欠', data.attendance],
-    ['お名前', `${data.lastName} ${data.firstName}`],
-    ['メールアドレス', data.email],
-    ['新郎新婦との関係', data.relationship],
+    ['代表者様 お名前', `${data.lastName} ${data.firstName}`],
   ];
 
-  if (data.attendance === '出席') {
-    if (data.allergy) rows.push(['アレルギー', data.allergy]);
+  if (data.attendance !== '欠席') {
+    if (data.companions && data.companions.length > 0) {
+      rows.push(['ご出席人数', `合計 ${data.companions.length + 1}名（代表者様 1名 ＋ お連れ様 ${data.companions.length}名）`]);
+      data.companions.forEach((c, i) => {
+        let compText = `${c.lastName} ${c.firstName} 様（${c.relationship}）`;
+        if (c.childInfo) compText += ` / ${c.childInfo}`;
+        if (c.allergy) compText += ` / アレルギー: ${c.allergy}`;
+        rows.push([`お連れ様 ${i + 1}`, compText]);
+      });
+    }
+    rows.push(['メールアドレス', data.email]);
+    rows.push(['新郎新婦との関係', data.relationship]);
+    if (data.allergy) rows.push(['代表者様 アレルギー', data.allergy]);
     rows.push(['送迎バス', data.shuttle]);
   }
 
@@ -429,27 +616,59 @@ async function exportCSV() {
   }
 
   const headers = [
-    '回答日時', 'ご出欠', '姓', '名', 'セイ', 'メイ',
-    'メールアドレス', '電話番号', '関係', '同伴者', 'お食事',
-    'アレルギー', '送迎バス', 'メッセージ'
+    '回答日時', 'ご出欠', '区分', '姓', '名', 'セイ', 'メイ',
+    '新郎新婦との関係', '郵便番号', 'ご住所', 'メールアドレス', '電話番号',
+    'アレルギー・食事制限', '送迎バス', 'メッセージ'
   ];
 
-  const rows = responses.map(r => [
-    new Date(r.timestamp).toLocaleString('ja-JP'),
-    r.attendance,
-    r.lastName,
-    r.firstName,
-    r.lastNameKana,
-    r.firstNameKana,
-    r.email,
-    r.phone || '',
-    r.relationship,
-    r.companionNames ? r.companionNames.join(' / ') : '',
-    r.meal || '',
-    r.allergy || '',
-    r.shuttle || '',
-    r.message || ''
-  ]);
+  const rows = [];
+  responses.forEach(r => {
+    const hasComps = r.companions && r.companions.length > 0;
+    // Representative row
+    rows.push([
+      new Date(r.timestamp).toLocaleString('ja-JP'),
+      r.attendance,
+      hasComps ? `代表者（連名 合計${r.companions.length + 1}名）` : '単身',
+      r.lastName,
+      r.firstName,
+      r.lastNameKana,
+      r.firstNameKana,
+      r.relationship,
+      r.postalCode ? '〒' + r.postalCode : '',
+      r.address || '',
+      r.email,
+      r.phone || '',
+      r.allergy || 'なし',
+      r.shuttle || '利用しない',
+      r.message || ''
+    ]);
+
+    // Companions rows
+    if (hasComps) {
+      r.companions.forEach((c, idx) => {
+        let allergyAndChild = c.allergy || 'なし';
+        if (c.childInfo) allergyAndChild += ` [食事: ${c.childInfo}]`;
+
+        rows.push([
+          '〃',
+          r.attendance,
+          `└ 連名同伴${idx + 1}（${r.lastName} ${r.firstName}様のお連れ様）`,
+          c.lastName,
+          c.firstName,
+          c.lastNameKana,
+          c.firstNameKana,
+          c.relationship,
+          '(代表者と同)',
+          '(代表者と同)',
+          '(代表者と同)',
+          '(代表者と同)',
+          allergyAndChild,
+          r.shuttle || '利用しない',
+          ''
+        ]);
+      });
+    }
+  });
 
   // BOM for Excel compatibility
   let csv = '\uFEFF' + headers.join(',') + '\n';
@@ -473,35 +692,46 @@ async function addSampleData() {
       lastName: '田中', firstName: '太郎', lastNameKana: 'タナカ', firstNameKana: 'タロウ',
       postalCode: '854-0012', address: '長崎県諫早市本町1-1',
       email: 'tanaka@example.com', phone: '090-1111-2222', relationship: '新郎友人',
-      allergy: '', shuttle: '利用する（諫早駅）', message: '結婚おめでとう！楽しみにしてます！'
+      allergy: 'なし', shuttle: '利用する（諫早駅）', message: '結婚おめでとう！夫婦で楽しみにしてます！',
+      companions: [
+        {
+          id: 'c1_1', lastName: '田中', firstName: '花子', lastNameKana: 'タナカ', firstNameKana: 'ハナコ',
+          relationship: '配偶者', allergy: '甲殻類（エビ・カニ）', childInfo: ''
+        },
+        {
+          id: 'c1_2', lastName: '田中', firstName: '結衣', lastNameKana: 'タナカ', firstNameKana: 'ユイ',
+          relationship: 'お子様', allergy: '', childInfo: 'お子様ランチ'
+        }
+      ]
     },
     {
       id: 's2', timestamp: new Date(Date.now() - 86400000).toISOString(), attendance: '出席',
-      lastName: '佐藤', firstName: '花子', lastNameKana: 'サトウ', firstNameKana: 'ハナコ',
+      lastName: '佐藤', firstName: '美咲', lastNameKana: 'サトウ', firstNameKana: 'ミサキ',
       postalCode: '812-0012', address: '福岡県福岡市博多区1-1',
       email: 'sato@example.com', phone: '080-3333-4444', relationship: '新婦友人',
-      allergy: 'エビアレルギー', shuttle: '利用しない', message: 'お幸せに♡'
+      allergy: 'なし', shuttle: '利用しない', message: '招待ありがとう！当日すっごく楽しみにしてるね♡',
+      companions: []
     },
     {
       id: 's3', timestamp: new Date(Date.now() - 172800000).toISOString(), attendance: '欠席',
       lastName: '山本', firstName: '一郎', lastNameKana: 'ヤマモト', firstNameKana: 'イチロウ',
       postalCode: '', address: '',
       email: 'yamamoto@example.com', phone: '', relationship: '新郎同僚',
-      allergy: '', shuttle: '', message: '残念ですが出張で出席できません。お祝い申し上げます。'
+      allergy: 'なし', shuttle: '', message: '残念ながら出張と重なってしまい出席できません。末永いお幸せを心よりお祈り申し上げます。',
+      companions: []
     },
     {
       id: 's4', timestamp: new Date(Date.now() - 259200000).toISOString(), attendance: '出席',
-      lastName: '鈴木', firstName: '美咲', lastNameKana: 'スズキ', firstNameKana: 'ミサキ',
+      lastName: '鈴木', firstName: '健一', lastNameKana: 'スズキ', firstNameKana: 'ケンイチ',
       postalCode: '856-0814', address: '長崎県大村市松並1-1',
-      email: 'suzuki@example.com', phone: '070-5555-6666', relationship: '新婦親族',
-      allergy: '小麦', shuttle: '利用する（新大村駅）', message: '家族みんなで楽しみにしてます！'
-    },
-    {
-      id: 's5', timestamp: new Date(Date.now() - 345600000).toISOString(), attendance: '出席',
-      lastName: '高橋', firstName: '翔太', lastNameKana: 'タカハシ', firstNameKana: 'ショウタ',
-      postalCode: '850-0031', address: '長崎県長崎市江戸町1-1',
-      email: 'takahashi@example.com', phone: '090-7777-8888', relationship: '新郎友人',
-      allergy: '', shuttle: '利用する（諫早駅）', message: ''
+      email: 'suzuki@example.com', phone: '070-5555-6666', relationship: '新郎親族',
+      allergy: 'そば', shuttle: '利用する（新大村駅）', message: '親族一同楽しみにしています。',
+      companions: [
+        {
+          id: 'c4_1', lastName: '鈴木', firstName: '優子', lastNameKana: 'スズキ', firstNameKana: 'ユウコ',
+          relationship: '配偶者', allergy: '', childInfo: ''
+        }
+      ]
     }
   ];
 

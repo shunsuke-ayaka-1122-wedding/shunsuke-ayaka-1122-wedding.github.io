@@ -127,14 +127,24 @@
 
     function updateStats() {
       const responses = allResponsesData;
+      let totalAttendingGuests = 0;
+      let totalShuttleGuests = 0;
+
       const attending = responses.filter(r => r.attendance === '出席');
       const absent = responses.filter(r => r.attendance === '欠席');
 
-      document.getElementById('stat-total').textContent = responses.length;
-      document.getElementById('stat-attending').textContent = attending.length;
-      document.getElementById('stat-absent').textContent = absent.length;
-      document.getElementById('stat-shuttle').textContent =
-        attending.filter(r => r.shuttle === '利用する').length;
+      attending.forEach(r => {
+        const count = 1 + (r.companions ? r.companions.length : 0);
+        totalAttendingGuests += count;
+        if (r.shuttle && r.shuttle.startsWith('利用する')) {
+          totalShuttleGuests += count;
+        }
+      });
+
+      document.getElementById('stat-total').innerHTML = `${responses.length} <small style="font-size:0.8rem; font-weight:normal;">組</small>`;
+      document.getElementById('stat-attending').innerHTML = `${totalAttendingGuests} <small style="font-size:0.8rem; font-weight:normal;">名 (${attending.length}組)</small>`;
+      document.getElementById('stat-absent').innerHTML = `${absent.length} <small style="font-size:0.8rem; font-weight:normal;">組</small>`;
+      document.getElementById('stat-shuttle').innerHTML = `${totalShuttleGuests} <small style="font-size:0.8rem; font-weight:normal;">名</small>`;
     }
 
     function renderTable() {
@@ -143,7 +153,10 @@
       // Apply filter
       if (currentFilter !== 'all') {
         if (currentFilter === 'アレルギー') {
-          responses = responses.filter(r => r.allergy && r.allergy !== 'なし' && r.allergy.trim() !== '');
+          responses = responses.filter(r => 
+            (r.allergy && r.allergy !== 'なし' && r.allergy.trim() !== '') ||
+            (r.companions && r.companions.some(c => c.allergy && c.allergy.trim() !== '' && c.allergy !== 'なし'))
+          );
         } else {
           responses = responses.filter(r => r.attendance === currentFilter);
         }
@@ -155,7 +168,11 @@
         responses = responses.filter(r =>
           `${r.lastName}${r.firstName}`.includes(q) ||
           `${r.lastNameKana}${r.firstNameKana}`.includes(q) ||
-          (r.email && r.email.toLowerCase().includes(q))
+          (r.email && r.email.toLowerCase().includes(q)) ||
+          (r.companions && r.companions.some(c => 
+            `${c.lastName}${c.firstName}`.includes(q) ||
+            `${c.lastNameKana}${c.firstNameKana}`.includes(q)
+          ))
         );
       }
 
@@ -173,38 +190,81 @@
 
       emptyState.style.display = 'none';
 
-      tbody.innerHTML = responses.map(r => `
-        <tr>
-          <td style="white-space: nowrap; font-size: 0.75rem;">
-            ${new Date(r.timestamp).toLocaleDateString('ja-JP', { month: 'short', day: 'numeric' })}
-          </td>
-          <td>
-            <span class="badge ${r.attendance === '出席' ? 'badge--attending' : 'badge--absent'}">
-              ${r.attendance}
-            </span>
-          </td>
-          <td style="font-weight: 400;">${r.lastName} ${r.firstName}</td>
-          <td style="font-size: 0.75rem; color: var(--color-brown-light);">
-            ${r.lastNameKana} ${r.firstNameKana}
-          </td>
-          <td style="font-size: 0.75rem;">${r.email}</td>
-          <td style="font-size: 0.75rem;">${r.relationship}</td>
-          <td style="font-size: 0.75rem;">
-            ${r.postalCode ? '〒' + r.postalCode + '<br>' : ''}${r.address || '—'}
-          </td>
-          <td style="font-size: 0.75rem; color: ${r.allergy ? 'var(--color-error)' : 'var(--color-brown-light)'};">
-            ${r.allergy || '—'}
-          </td>
-          <td style="font-size: 0.75rem;">${r.shuttle || '—'}</td>
-          <td style="font-size: 0.75rem; max-width: 150px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
-              title="${(r.message || '').replace(/"/g, '&quot;')}">
-            ${r.message || '—'}
-          </td>
-          <td>
-            <button class="action-btn" onclick="handleDelete('${r.id}')">削除</button>
-          </td>
-        </tr>
-      `).join('');
+      let html = '';
+      responses.forEach(r => {
+        const hasComps = r.companions && r.companions.length > 0;
+        const compCount = hasComps ? r.companions.length : 0;
+
+        // Representative Row
+        html += `
+          <tr>
+            <td style="white-space: nowrap; font-size: 0.75rem;">
+              ${new Date(r.timestamp).toLocaleDateString('ja-JP', { month: 'short', day: 'numeric' })}
+            </td>
+            <td>
+              <span class="badge ${r.attendance === '出席' ? 'badge--attending' : 'badge--absent'}">
+                ${r.attendance}
+              </span>
+            </td>
+            <td style="font-weight: 500;">
+              ${r.lastName} ${r.firstName}
+              ${hasComps ? `<span class="badge badge--companion-main">連名 ${compCount + 1}名</span>` : ''}
+            </td>
+            <td style="font-size: 0.75rem; color: var(--color-brown-light);">
+              ${r.lastNameKana} ${r.firstNameKana}
+            </td>
+            <td style="font-size: 0.75rem;">${r.email || '—'}</td>
+            <td style="font-size: 0.75rem;">${r.relationship || '—'}</td>
+            <td style="font-size: 0.75rem;">
+              ${r.postalCode ? '〒' + r.postalCode + '<br>' : ''}${r.address || '—'}
+            </td>
+            <td style="font-size: 0.75rem; color: ${r.allergy && r.allergy !== 'なし' ? 'var(--color-error)' : 'var(--color-brown-light)'};">
+              ${r.allergy || '—'}
+            </td>
+            <td style="font-size: 0.75rem;">${r.shuttle || '—'}</td>
+            <td style="font-size: 0.75rem; max-width: 150px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                title="${(r.message || '').replace(/"/g, '&quot;')}">
+              ${r.message || '—'}
+            </td>
+            <td>
+              <button class="action-btn" onclick="handleDelete('${r.id}')">削除</button>
+            </td>
+          </tr>
+        `;
+
+        // Companion Rows (1 row for each companion)
+        if (hasComps) {
+          r.companions.forEach(c => {
+            html += `
+              <tr class="admin-row--companion">
+                <td style="text-align: center; color: #BBB; font-size: 0.75rem;">〃</td>
+                <td>
+                  <span class="badge badge--companion">同伴</span>
+                </td>
+                <td style="padding-left: 20px;">
+                  <span style="color: var(--color-gold); font-weight: bold; margin-right: 4px;">└</span>
+                  <strong>${c.lastName} ${c.firstName}</strong>
+                </td>
+                <td style="font-size: 0.75rem; color: var(--color-brown-light);">
+                  ${c.lastNameKana} ${c.firstNameKana}
+                </td>
+                <td style="font-size: 0.72rem; color: #AAA;">(同上)</td>
+                <td style="font-size: 0.75rem;">${c.relationship}</td>
+                <td style="font-size: 0.72rem; color: #AAA;">(同上)</td>
+                <td style="font-size: 0.75rem; color: ${c.allergy && c.allergy !== 'なし' ? 'var(--color-error)' : 'var(--color-brown-light)'};">
+                  ${c.allergy || 'なし'}
+                  ${c.childInfo ? `<br><small style="color: var(--color-brown); font-weight: 500;">[${c.childInfo}]</small>` : ''}
+                </td>
+                <td style="font-size: 0.72rem; color: #AAA;">(同上)</td>
+                <td style="font-size: 0.72rem; color: #AAA;">—</td>
+                <td>—</td>
+              </tr>
+            `;
+          });
+        }
+      });
+
+      tbody.innerHTML = html;
     }
 
     function setFilter(filter, btn) {
