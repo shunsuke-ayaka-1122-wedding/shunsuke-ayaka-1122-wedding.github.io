@@ -775,7 +775,7 @@ async function exportCSV() {
     rows.push([
       new Date(r.timestamp).toLocaleString('ja-JP'),
       r.attendance,
-      hasComps ? `代表者（連名 合計${r.companions.length + 1}名）` : '単身',
+      hasComps ? `代表者（計${r.companions.length + 1}名）` : '単身（1名）',
       r.lastName,
       r.firstName,
       r.lastNameKana,
